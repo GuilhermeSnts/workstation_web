@@ -1,12 +1,12 @@
 <template>
   <v-navigation-drawer mini-variant app v-model="sideBar">
-    <v-list dense nav>
-      <v-list-item to="/">
+    <v-list dense nav v-for="(item, index) in menu" :key="index">
+      <v-list-item :to="item.route">
         <v-list-item-action>
-          <v-icon>mdi-view-dashboard</v-icon>
+          <v-icon>{{ item.icon }}</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-          <v-list-item-title>dashboard</v-list-item-title>
+          <v-list-item-title>{{ item.text }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -15,6 +15,13 @@
 
 <script>
 export default {
+  data: () => ({
+    menu: [
+      { icon: "mdi-view-dashboard", text: "Dashboard", route: "/" },
+      { icon: "mdi-account-multiple", text: "Customers", route: "/customers" }
+    ]
+  }),
+
   computed: {
     sideBar: {
       get() {

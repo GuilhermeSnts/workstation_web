@@ -3,7 +3,7 @@
     <v-app-bar-nav-icon @click="sideBar = !sideBar"></v-app-bar-nav-icon>
 
     <div class="d-flex align-center">
-      <v-toolbar-title><b>Intranet</b> {{ client_name }}</v-toolbar-title>
+      <v-toolbar-title><b>Intranet</b></v-toolbar-title>
     </div>
 
     <v-spacer></v-spacer>
@@ -15,15 +15,16 @@
         </v-btn>
       </template>
 
-      <v-card min-width="400">
+      <v-card width="300">
         <v-list>
           <v-list-item>
-            <v-list-item-avatar>
-              <v-img src="https://cdn.vuetifyjs.com/images/john.png"></v-img>
+            <v-list-item-avatar color="blue">
+              {{ user.first_name.charAt(0).toUpperCase() }}
+              <!-- <v-img src="https://cdn.vuetifyjs.com/images/john.png"></v-img> -->
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title>Jhonatan </v-list-item-title>
-              <v-list-item-subtitle>Supervisor </v-list-item-subtitle>
+              <v-list-item-title>{{ user.first_name }} </v-list-item-title>
+              <v-list-item-subtitle>online </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -51,10 +52,12 @@ export default {
     menu: [
       { icon: "mdi-account", text: "Conta", route: "/account" },
       { icon: "mdi-power", text: "Logoff", route: "/auth" }
-    ],
-    client_name: "Sys Quality"
+    ]
   }),
   computed: {
+    user() {
+      return this.$store.state.user;
+    },
     sideBar: {
       get() {
         return this.$store.state.settings.sideBar;

@@ -3,7 +3,11 @@
     <app-bar v-if="hasUser"></app-bar>
     <side-bar v-if="hasUser"></side-bar>
     <v-content>
-      <router-view></router-view>
+      <v-container fluid class="fill-height">
+        <v-layout justify-center align-center>
+          <router-view></router-view>
+        </v-layout>
+      </v-container>
     </v-content>
   </v-app>
 </template>
