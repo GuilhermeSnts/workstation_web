@@ -15,6 +15,11 @@ export default new Vuex.Store({
       token: null
     }
   },
+  getters: {
+    token(state) {
+      return state.user.token;
+    }
+  },
   mutations: {
     setSideBar(state, payload) {
       state.settings.sideBar = payload;
