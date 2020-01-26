@@ -18,7 +18,12 @@ export default {
   data: () => ({
     menu: [
       { icon: "mdi-view-dashboard", text: "Dashboard", route: "/" },
-      { icon: "mdi-account-multiple", text: "Customers", route: "/customers" }
+      { icon: "mdi-account-multiple", text: "Customers", route: "/customers" },
+      {
+        icon: "mdi-file-document-box-check-outline",
+        text: "Work Orders",
+        route: "/work-orders"
+      }
     ]
   }),
 
