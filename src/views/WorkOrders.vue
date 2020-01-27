@@ -14,9 +14,13 @@
             height="300"
             @click="alert('qasdsa')"
           >
-            <template v-slot:item.action="{ item }">
-              <v-btn icon :to="item.internal_code"
-                ><v-icon>mdi-arror-left</v-icon>
+            <template v-slot:item.created_at="{ item }">
+              <v-chip>{{ item.created_at | date }}</v-chip>
+            </template>
+
+            <template v-slot:item.actions="{ item }">
+              <v-btn icon :to="'work-orders/' + item.internal_code"
+                ><v-icon>mdi-arrow-right</v-icon>
               </v-btn>
             </template>
           </v-data-table>
@@ -30,6 +34,7 @@
 </template>
 
 <script>
+import dayjs from "dayjs";
 import CreateWorkOrder from "@/components/CreateWorkOrder.vue";
 export default {
   data: () => ({
@@ -43,7 +48,8 @@ export default {
       { text: "Cliente", value: "customer_name" },
       { text: "Data de Abertura", value: "created_at" },
       { text: "Tipo de Hardware", value: "hardware_type" },
-      { text: "Status", value: "status" }
+      { text: "Status", value: "status" },
+      { text: "Ações", value: "actions" }
     ],
     workOrders: [],
     selectedWorkOrder: []
@@ -71,6 +77,11 @@ export default {
   },
   mounted() {
     this.getWorkOrders();
+  },
+  filters: {
+    date(value) {
+      return dayjs(value).format("DD/MM/YYYY");
+    }
   }
 };
 </script>
