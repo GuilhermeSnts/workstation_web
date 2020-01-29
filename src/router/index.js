@@ -52,9 +52,20 @@ const routes = [
   },
   {
     path: "/work-orders",
-    name: "workorders",
+    name: "workOrders",
     component: () =>
       import(/* webpackChunkName: "orkorders" */ "../views/WorkOrders.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/work-orders/:internal_code",
+    name: "workOrderPanel",
+    component: () =>
+      import(
+        /* webpackChunkName: "workOrderPanel" */ "../views/WorkOrderPanel.vue"
+      ),
     meta: {
       requiresAuth: true
     }
