@@ -8,11 +8,7 @@
       <v-divider></v-divider>
 
       <v-card-text class="pl-8 pr-8 ">
-        <v-form
-          @submit.prevent="login()"
-          v-model="valid"
-          :lazy-validation="lazy"
-        >
+        <v-form @submit.prevent="login()" v-model="valid" lazy-validation>
           <v-row class="pa-n2 ma-n4 mx-auto " align="center" justify="center">
             <v-col xs="6" sm="6" md="6" lg="6" xl="6">
               <v-text-field
@@ -84,25 +80,32 @@ export default {
           this.$store.commit("setClientCode", this.client_code);
           this.$router.push("/");
         })
-        .catch(err => this.showSnackbar(err.response.data)) //replace with snackbar
+        .catch(err => this.showSnackbar(err.response.data))
         .finally((this.isLoading = false));
     },
+
     clearData() {
-      this.$store.commit("setToken", null);
+      this.$store.commit("setUser", {
+        first_name: "",
+        last_name: "",
+        token: "",
+        username: ""
+      });
     },
+
     showSnackbar(msg) {
       this.snackbar = true;
       this.snackbarMessage = msg;
     },
+
     rememberLastClientCode() {
       this.client_code = this.$store.state.settings.client_code;
     }
   },
+
   mounted() {
     this.clearData();
     this.rememberLastClientCode();
   }
 };
 </script>
-
-<style></style>
