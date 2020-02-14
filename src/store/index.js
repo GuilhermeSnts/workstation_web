@@ -12,7 +12,9 @@ export default new Vuex.Store({
     },
     user: {
       first_name: null,
-      token: null
+      last_name: null,
+      token: null,
+      username: null
     }
   },
   getters: {
@@ -27,8 +29,11 @@ export default new Vuex.Store({
     setClientCode(state, payload) {
       state.settings.client_code = payload;
     },
-    setUser(state, payload) {
-      state.user = payload;
+    setUser(state, { first_name, last_name, token, username }) {
+      state.user.first_name = first_name;
+      state.user.last_name = last_name;
+      state.user.token = token;
+      state.user.username = username;
     },
     setToken(state, payload) {
       state.user.token = payload;

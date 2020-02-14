@@ -17,8 +17,9 @@
                 outlined
                 dense
                 required
-              ></v-text-field> </v-col
-          ></v-row>
+              ></v-text-field>
+            </v-col>
+          </v-row>
 
           <v-text-field
             label="usuario"
@@ -44,8 +45,10 @@
         <v-btn class="mt-6" text small color="blue">
           Esqueceu a senha?
         </v-btn>
-      </v-card-text> </v-card
-    ><v-snackbar v-model="snackbar" :timeout="3000">
+      </v-card-text>
+    </v-card>
+
+    <v-snackbar v-model="snackbar" :timeout="3000">
       {{ snackbarMessage }}
       <v-btn color="pink" text @click="snackbar = false">
         <v-icon>mdi-close</v-icon>
@@ -76,21 +79,26 @@ export default {
       this.$http
         .post("/authenticate", { ...data })
         .then(res => {
-          this.$store.commit("setUser", res.data);
+          this.$store.commit("setUser", { ...res.data });
           this.$store.commit("setClientCode", this.client_code);
           this.$router.push("/");
         })
-        .catch(err => this.showSnackbar(err.response.data))
-        .finally((this.isLoading = false));
+        .catch(err => {
+          this.showSnackbar(err.response.data.msg);
+        })
+        .finally(() => (this.isLoading = false));
     },
 
     clearData() {
-      this.$store.commit("setUser", {
-        first_name: "",
-        last_name: "",
-        token: "",
-        username: ""
-      });
+      let hasToken = this.$store.state.user.token;
+      if (hasToken) {
+        this.$store.commit("setUser", {
+          first_name: "",
+          last_name: "",
+          token: "",
+          username: ""
+        });
+      }
     },
 
     showSnackbar(msg) {

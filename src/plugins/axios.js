@@ -3,9 +3,20 @@ import store from "../store";
 import router from "../router";
 import Vue from "vue";
 
-axios.defaults.headers.common["Authorization"] = store.getters.token;
-axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.baseURL = "http://3.87.159.233";
 
+axios.interceptors.request.use(
+  config => {
+    const token = store.state.user.token;
+    if (token) {
+      config.headers["Authorization"] = store.state.user.token;
+    }
+    return config;
+  },
+  error => {
+    Promise.reject(error);
+  }
+);
 axios.interceptors.response.use(
   response => {
     return response;
@@ -14,11 +25,8 @@ axios.interceptors.response.use(
     if (error.response.status === 401) {
       router.push("/auth");
     }
-    return error;
+    return Promise.reject(error);
   }
 );
-Vue.use({
-  install(Vue) {
-    Vue.prototype.$http = axios;
-  }
-});
+
+Vue.use((Vue.prototype.$http = axios));
