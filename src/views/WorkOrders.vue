@@ -9,7 +9,7 @@
           <v-data-table
             :headers="headers"
             :items="workOrders"
-            :items-per-page="5"
+            hide-default-footer=""
             v-model="selectedWorkOrder"
             height="300"
             @click="alert('qasdsa')"
@@ -24,6 +24,11 @@
               </v-btn>
             </template>
           </v-data-table>
+          <v-pagination
+            v-model="page"
+            :length="totalPages"
+            total-visible="5"
+          ></v-pagination>
         </v-card-text>
         <v-card-actions>
           <create-work-order @update="getWorkOrders" />
@@ -52,6 +57,8 @@ export default {
       { text: "Ações", value: "actions" }
     ],
     workOrders: [],
+    totalItens: 0,
+    page: 1,
     selectedWorkOrder: []
   }),
 
@@ -67,12 +74,23 @@ export default {
       } else {
         return {};
       }
+    },
+    totalPages() {
+      return Math.floor(this.totalItens / 5);
     }
   },
 
   methods: {
     getWorkOrders() {
-      this.$http("/work-orders").then(res => (this.workOrders = res.data));
+      this.$http(`/work-orders?page=${this.page}`).then(res => {
+        this.workOrders = res.data.work_orders;
+        this.totalItens = res.data.count;
+      });
+    }
+  },
+  watch: {
+    page() {
+      this.getWorkOrders();
     }
   },
   mounted() {

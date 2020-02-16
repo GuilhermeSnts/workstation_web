@@ -2,7 +2,7 @@
   <v-row align="center" justify="center" class="ma-4">
     <v-col cols="12" sm="12" lg="8">
       <v-card>
-        <v-card-title> Clientes - {{ totalItens }} </v-card-title>
+        <v-card-title> Clientes </v-card-title>
         <v-card-text>
           <v-data-table
             :headers="headers"
@@ -19,7 +19,7 @@
           <v-pagination
             v-model="page"
             :length="totalPages"
-            total-visible="6"
+            total-visible="5"
           ></v-pagination>
         </v-card-text>
         <v-card-actions>
@@ -120,7 +120,7 @@ export default {
       }
     },
     totalPages() {
-      return Math.round(this.totalItens / 5);
+      return Math.floor(this.totalItens / 5);
     }
   },
 
