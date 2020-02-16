@@ -199,7 +199,7 @@ export default {
   methods: {
     searchCustomer() {
       this.customerLoading = true;
-      this.$http(`/customers/find?name=${this.customerToSearch}`)
+      this.$http(`/customers/search/${this.customerToSearch}`)
         .then(res => (this.customersSearchList = res.data))
         .catch(err => alert(err))
         .finally((this.customerLoading = false));
@@ -207,7 +207,7 @@ export default {
 
     searchWorkOrders() {
       this.previousCodeLoading = true;
-      this.$http(`/work-orders/find?internal_code=${this.internalCodeToSearch}`)
+      this.$http(`/work-orders/search/${this.internalCodeToSearch}`)
         .then(res => (this.workOrdersSearchList = res.data))
         .catch(err => alert(err))
         .finally((this.previousCodeLoading = false));
