@@ -2,21 +2,25 @@
   <v-row align="center" justify="center" class="ma-4">
     <v-col cols="12" sm="12" lg="8">
       <v-card>
-        <v-card-title>
-          Clientes
-        </v-card-title>
+        <v-card-title> Clientes - {{ totalItens }} </v-card-title>
         <v-card-text>
           <v-data-table
             :headers="headers"
             :items="customers"
             :items-per-page="5"
             single-select
+            hide-default-footer
             v-model="selectedCustomer"
             item-key="id"
             show-select
             height="300"
           >
           </v-data-table>
+          <v-pagination
+            v-model="page"
+            :length="totalPages"
+            total-visible="6"
+          ></v-pagination>
         </v-card-text>
         <v-card-actions>
           <create-customer @update="getCustomers" />
@@ -97,6 +101,8 @@ export default {
       { text: "Telefone", value: "phone" }
     ],
     customers: [],
+    totalItens: 0,
+    page: 1,
     selectedCustomer: []
   }),
 
@@ -112,12 +118,23 @@ export default {
       } else {
         return {};
       }
+    },
+    totalPages() {
+      return Math.round(this.totalItens / 5);
     }
   },
 
   methods: {
     getCustomers() {
-      this.$http("/customers").then(res => (this.customers = res.data));
+      this.$http(`/customers?page=${this.page}`).then(res => {
+        this.customers = res.data.customers;
+        this.totalItens = res.data.count;
+      });
+    }
+  },
+  watch: {
+    page() {
+      this.getCustomers();
     }
   },
   mounted() {
