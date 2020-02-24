@@ -75,6 +75,17 @@
             outlined
             required
           ></v-select>
+          <v-select
+            v-model="wo.in_charge"
+            label="Encarregado"
+            :items="userList"
+            :rules="[v => !!v || 'Item is required']"
+            item-text="username"
+            item-value="id"
+            dense
+            outlined
+            required
+          ></v-select>
           <v-divider class="mt-2 mb-6"></v-divider>
           <v-select
             v-model="wo.hardware_type"
@@ -148,6 +159,7 @@ export default {
       previous_id: "",
       work_type: "",
       customer_id: "",
+      in_charge: "",
       hardware_type: "",
       manufacturer: "",
       hardware_model: "",
@@ -169,7 +181,8 @@ export default {
     snackbar: false,
     snackbarText: "",
     previous_id: "",
-    departmentList: []
+    departmentList: [],
+    userList: []
   }),
   computed: {},
   watch: {
@@ -233,6 +246,17 @@ export default {
         });
     },
 
+    getUsers() {
+      this.$http("/users")
+        .then(res => {
+          this.userList = res.data;
+        })
+        .catch(() => {
+          this.snackbar = true;
+          this.snackbarText = "Houve um erro ao obter a lista de usuários";
+        });
+    },
+
     createWorkOrder() {
       this.$http
         .post("/work-orders", this.wo)
@@ -250,6 +274,7 @@ export default {
   },
   mounted() {
     this.getDepartments();
+    this.getUsers();
   }
 };
 </script>
