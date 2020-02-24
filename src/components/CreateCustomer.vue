@@ -54,6 +54,7 @@
               <v-text-field
                 v-model="customer.postal_code"
                 label="CEP"
+                @blur="searchPostalCode(customer.postal_code)"
                 outlined
                 dense
               ></v-text-field>
@@ -127,7 +128,9 @@ export default {
       document_number: "",
       postal_code: "",
       address_number: "",
-      complement: ""
+      complement: "",
+      street: "",
+      neighborhood: ""
     },
     dialog: false,
     valid: true,
@@ -145,7 +148,18 @@ export default {
   },
 
   methods: {
+    searchPostalCode(postal_code) {
+      fetch(`http://www.viacep.com.br/ws/${postal_code}/json/`)
+        .then(({ data }) => {
+          console.log(data);
+          this.customer.neighborhood = data.bairro;
+          this.customer.street = data.rua;
+        })
+        .catch(err => console.log(err));
+    },
+
     validate() {
+      console.log("validate", this.$refs.form.validate());
       if (this.$refs.form.validate()) {
         this.createCustomer();
       } else {
@@ -154,15 +168,18 @@ export default {
       }
     },
     createCustomer() {
+      console.log("customer");
       this.$http
         .post("/customers", this.customer)
         .then(() => {
+          console.log("Cliente cadastrado com sucesso!");
           this.snackbar = true;
           this.snackbarText = "Cliente cadastrado com sucesso!";
           this.dialog = false;
           this.$emit("update");
         })
-        .catch(() => {
+        .catch(err => {
+          console.log(err);
           this.snackbar = true;
           this.snackbarText = "Houve um erro ao cadastrar o cliente";
         });
