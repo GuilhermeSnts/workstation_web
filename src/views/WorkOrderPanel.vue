@@ -10,6 +10,12 @@
         <v-chip color="blue" dark>{{ wo.status }}</v-chip>
         <v-row>
           <v-col>
+            <p>
+              <b>Encarregado: </b>
+              <span v-if="!wo.in_charge">Não possui um encarregado</span>
+              <span v-else class="blue--text">{{ wo.work_requested }}</span>
+            </p>
+
             <p><b>Data de abertura:</b> {{ wo.created_at | date }}</p>
 
             <p v-if="wo.finished_at">

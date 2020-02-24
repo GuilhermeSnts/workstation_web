@@ -3,8 +3,8 @@ import store from "../store";
 import router from "../router";
 import Vue from "vue";
 
-axios.defaults.baseURL = "http://3.87.159.233";
-//axios.defaults.baseURL = "http://localhost:80";
+//axios.defaults.baseURL = "http://3.87.159.233";
+axios.defaults.baseURL = "http://localhost:80";
 
 axios.interceptors.request.use(
   config => {
