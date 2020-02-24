@@ -45,8 +45,22 @@
           text
           v-if="!wo.finished_at"
           @click="finishDialog = !finishDialog"
-          >finalizar</v-btn
-        >
+          >finalizar
+        </v-btn>
+        <v-btn
+          color="blue"
+          text
+          v-if="!wo.finished_at"
+          @click="changeStatusDialog = !changeStatusDialog"
+          >trocar status
+        </v-btn>
+        <v-btn
+          color="blue"
+          text
+          v-if="!wo.finished_at"
+          @click="changeInChargeDialog = !changeInChargeDialog"
+          >trocar encarregado
+        </v-btn>
       </v-card-actions>
     </v-card>
 
@@ -59,6 +73,8 @@
         </v-card-text>
       </v-card>
     </v-row>
+
+    <!-- Necessário jogar esses dialogs em componentes isolados para limpeza do código -->
 
     <v-dialog v-model="finishDialog" width="500" scrollable>
       <v-card>
@@ -82,6 +98,62 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <!-- Change Status Dialog -->
+
+    <v-dialog v-model="changeStatusDialog" width="300" scrollable>
+      <v-card>
+        <v-card-title>Alterar Status {{ wo.internal_code }} </v-card-title>
+        <v-card-text>
+          <p>
+            O status será atualizado e uma mensagem será gravada na linha do
+            tempo desta Ordem de serviço indicando o usuário que a alterou,
+            data, hora e qual status estava antes da sua alteração.
+          </p>
+          <v-select
+            label="Status"
+            :items="statusList"
+            item-text="status"
+            item-value="id"
+            v-model="statusToChange"
+          ></v-select>
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-btn text @click="changeStatusDialog = false">cancelar</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn dark color="blue" @click="changeStatus()">concluir</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!-- Change in Charge,  -->
+
+    <v-dialog v-model="changeInChargeDialog" width="300" scrollable>
+      <v-card>
+        <v-card-title>Alterar encarregado {{ wo.internal_code }} </v-card-title>
+        <v-card-text>
+          <p>
+            O Encarregado será atualizado e uma mensagem será gravada na linha
+            do tempo desta Ordem de serviço indicando o usuário que a alterou,
+            data, hora e quem era encarregado antes da sua alteração.
+          </p>
+          <v-select
+            label="Encarregado"
+            :items="userList"
+            item-text="username"
+            item-value="id"
+            v-model="newUserInCharge"
+          ></v-select>
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-btn text @click="changeInChargeDialog = false">cancelar</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn dark color="blue" @click="changeInCharge()">concluir</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -92,16 +164,66 @@ export default {
   data: () => ({
     wo: {},
     finishDialog: false,
+    changeStatusDialog: false,
+    changeInChargeDialog: false,
     finishForm: false,
-    work_performed: ""
+    work_performed: "",
+    statusList: [],
+    statusToChange: "",
+    userList: [],
+    newUserInCharge: ""
   }),
   methods: {
+    getStatusList() {
+      this.$http(`/work-order-status`)
+        .then(res => {
+          let validOptions = res.data.filter(i => !i.type);
+          this.statusList = validOptions;
+        })
+        .catch(err => alert(err));
+    },
     getWorkOrder() {
       let internalCode = this.$route.params.internal_code;
       this.$http(`/work-orders/find?internal_code=${internalCode}`)
         .then(res => (this.wo = res.data))
         .catch(err => alert(err));
     },
+    getUsers() {
+      this.$http("/users")
+        .then(res => {
+          this.userList = res.data;
+        })
+        .catch(() => {
+          this.snackbar = true;
+          this.snackbarText = "Houve um erro ao obter a lista de usuários";
+        });
+    },
+    changeStatus() {
+      this.$http
+        .put(`/work-order/status/${this.wo.id}`, {
+          status_id: this.statusToChange
+        })
+        .then(() => {
+          this.getWorkOrder();
+          this.changeStatusDialog = false;
+          this.showSnackbar("Status foi atualizado");
+        })
+        .catch(error => this.showSnackbar(error.message.data));
+    },
+
+    changeInCharge() {
+      this.$http
+        .put(`/work-order/${this.wo.id}`, {
+          in_charge: this.newUserInCharge
+        })
+        .then(() => {
+          this.getWorkOrder();
+          this.changeInChargeDialog = false;
+          this.showSnackbar("O encarregado foi substituído");
+        })
+        .catch(error => this.showSnackbar(error.message.data));
+    },
+
     sendFinish() {
       this.$http
         .put(`/work-order/finish/${this.wo.id}`, {
@@ -127,6 +249,8 @@ export default {
   },
   mounted() {
     this.getWorkOrder();
+    this.getStatusList();
+    this.getUsers();
   },
   filters: {
     date(value) {
