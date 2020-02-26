@@ -1,5 +1,5 @@
 <template>
-  <v-row align="center" justify="center">
+  <v-row justify="center">
     <v-col cols="12" sm="12" md="4">
       <v-card>
         <v-card-text>
@@ -14,7 +14,7 @@
 
           <div>{{ wo.customer_name }}</div>
 
-          <v-menu>
+          <v-menu v-if="!wo.finished_at" :close-on-content-click="false">
             <template v-slot:activator="{ on }">
               <v-btn color="primary" text dark v-on="on" small
                 ><v-icon left>mdi-cogs</v-icon>
@@ -26,19 +26,24 @@
                 ><UpdateWorkOrderStatus
                   :internalCode="wo.internal_code"
                   :id="wo.id"
-                  v-if="!wo.finished_at"
               /></v-list-item>
 
               <v-list-item
                 ><UpdateWorkOrderInCharge
                   :internalCode="wo.internal_code"
                   :id="wo.id"
-                  v-if="!wo.finished_at"
               /></v-list-item>
             </v-list>
           </v-menu>
-          <!-- Needs change it to client name on de repository -->
+        </v-card-text>
 
+        <v-card-text
+          :class="
+            $vuetify.breakpoint.smAndDown
+              ? ''
+              : 'overflow-y-auto limit-height-card'
+          "
+        >
           <v-sheet class="ma-2" outlined>
             <p class="text-center">{{ wo.work_requested }}</p>
 
@@ -132,50 +137,79 @@
     </v-col>
 
     <v-col cols="12" sm="12" md="8">
-      <v-timeline align-top dense clipped>
-        <v-timeline-item fill-dot v-if="wo.finished_at">
-          <template v-slot:icon><v-icon>mdi-flag-checkered</v-icon></template>
-          <div class="caption font-weight-light">
-            {{ wo.finished_at | date }}
-          </div>
+      <v-container
+        :class="
+          $vuetify.breakpoint.smAndDown
+            ? ''
+            : 'overflow-y-auto limit-height-timeline'
+        "
+      >
+        <v-timeline align-top dense clipped>
+          <v-timeline-item fill-dot v-if="wo.finished_at">
+            <template v-slot:icon><v-icon>mdi-flag-checkered</v-icon></template>
+            <div class="caption font-weight-light">
+              {{ wo.finished_at | date }}
+            </div>
 
-          <strong>Finalizado</strong>
-          <div class="caption">{{ wo.work_performed }}</div>
-        </v-timeline-item>
+            <strong>Finalizado</strong>
+            <div class="caption">{{ wo.work_performed }}</div>
+          </v-timeline-item>
 
-        <v-timeline-item fill-dot v-if="!wo.finished_at" color="orange">
-          <template v-slot:icon><v-icon>mdi-edit</v-icon></template>
+          <v-timeline-item fill-dot v-if="!wo.finished_at" color="orange">
+            <template v-slot:icon
+              ><v-icon>mdi-note-plus-outline</v-icon></template
+            >
 
-          <v-card>
-            <v-card-text>
-              <div class="caption font-weight-light">
-                {{ new Date() | date }}
-              </div>
-              <v-textarea label="Atualizar" solo light></v-textarea
-            ></v-card-text>
-            <v-card-actions> <v-btn text>gravar</v-btn></v-card-actions>
-          </v-card>
-        </v-timeline-item>
+            <v-card>
+              <v-card-text>
+                <div class="caption font-weight-light">
+                  {{ new Date() | date }}
+                </div>
+                <v-text-field
+                  label="Titulo"
+                  solo
+                  light
+                  v-model="note.title"
+                ></v-text-field>
+                <v-textarea
+                  label="Nota"
+                  solo
+                  light
+                  v-model="note.note"
+                ></v-textarea
+              ></v-card-text>
+              <v-card-actions>
+                <v-btn text @click="createNote()">gravar</v-btn></v-card-actions
+              >
+            </v-card>
+          </v-timeline-item>
 
-        <v-timeline-item small fill-dot>
-          <div class="caption font-weight-light">
-            {{ new Date() | date }}
-          </div>
+          <v-timeline-item
+            small
+            fill-dot
+            v-for="(item, index) in WorkOrderNotes"
+            :key="index"
+          >
+            <div class="caption font-weight-light">
+              {{ item.created_at | date }}
+            </div>
 
-          <strong>teste</strong>
-          <div class="caption">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum.
-          </div>
-        </v-timeline-item>
-      </v-timeline>
+            <strong>{{ item.title }}</strong>
+            <div class="caption">
+              {{ item.note }}
+            </div>
+          </v-timeline-item>
+
+          <v-timeline-item fill-dot>
+            <template v-slot:icon><v-icon>mdi-star</v-icon></template>
+            <div class="caption font-weight-light">
+              {{ wo.created_at | date }}
+            </div>
+            <strong>Criado</strong>
+            <div class="caption">OS criada por {{ wo.creator }}</div>
+          </v-timeline-item>
+        </v-timeline>
+      </v-container>
     </v-col>
   </v-row>
 </template>
@@ -188,7 +222,12 @@ import FinishWorkOrder from "@/components/FinishWorkOrder.vue";
 export default {
   data: () => ({
     wo: {},
-    userInCharge: {}
+    userInCharge: {},
+    WorkOrderNotes: [],
+    note: {
+      note: "",
+      title: ""
+    }
   }),
   components: {
     UpdateWorkOrderStatus,
@@ -212,6 +251,15 @@ export default {
       this.$http(`/user/${this.wo.in_charge}`)
         .then(res => (this.userInCharge = res.data))
         .catch(err => alert(err));
+    },
+    createNote() {
+      this.WorkOrderNotes.unshift({
+        note: this.note.note,
+        title: this.note.title,
+        date: new Date()
+      });
+      this.note.note = "";
+      this.note.title = "";
     }
   },
   mounted() {
@@ -224,3 +272,12 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.limit-height-card {
+  max-height: 300px;
+}
+.limit-height-timeline {
+  max-height: 550px;
+}
+</style>
