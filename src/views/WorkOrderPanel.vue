@@ -191,7 +191,10 @@
             :key="index"
           >
             <div class="caption font-weight-light">
-              {{ item.created_at | date }}
+              às
+              <span class="blue--text">{{ item.created_at | date }}</span>
+              por
+              <span class="blue--text">{{ item.author_name }}</span>
             </div>
 
             <strong>{{ item.title }}</strong>
@@ -244,6 +247,7 @@ export default {
           if (this.wo.in_charge) {
             this.getUser();
           }
+          this.getWorkOrderNotes();
         })
         .catch(err => alert(err));
     },
@@ -252,14 +256,28 @@ export default {
         .then(res => (this.userInCharge = res.data))
         .catch(err => alert(err));
     },
+    getWorkOrderNotes() {
+      this.$http(`/work-order-notes/${this.wo.id}`)
+        .then(res => {
+          this.WorkOrderNotes = res.data;
+        })
+        .catch(err => alert(err));
+    },
     createNote() {
-      this.WorkOrderNotes.unshift({
-        note: this.note.note,
-        title: this.note.title,
-        date: new Date()
-      });
-      this.note.note = "";
-      this.note.title = "";
+      this.$http
+        .post(`/work-order-note`, {
+          note: this.note.note,
+          title: this.note.title,
+          work_order_id: this.wo.id,
+          icon: "",
+          color: "blue",
+          type: "note"
+        })
+        .then(() => {
+          this.getWorkOrderNotes();
+          this.note.note = "";
+          this.note.title = "";
+        });
     }
   },
   mounted() {
