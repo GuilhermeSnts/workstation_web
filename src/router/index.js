@@ -47,7 +47,9 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "customers" */ "../views/Customers.vue"),
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      title: "Clientes",
+      icon: "mdi-accounts"
     }
   },
   {
@@ -56,7 +58,9 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "orkorders" */ "../views/WorkOrders.vue"),
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      title: "Ordens De Serviço",
+      icon: "mdi-file-outline"
     }
   },
   {
@@ -67,7 +71,20 @@ const routes = [
         /* webpackChunkName: "workOrderPanel" */ "../views/WorkOrderPanel.vue"
       ),
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      title: "Ordem De Serviço",
+      icon: "mdi-file-outline"
+    }
+  },
+  {
+    path: "/tickets",
+    name: "Tickets",
+    component: () =>
+      import(/* webpackChunkName: "tickets" */ "../views/Tickets.vue"),
+    meta: {
+      requiresAuth: true,
+      title: "Chamados",
+      icon: "mdi-ticket"
     }
   }
 ];
