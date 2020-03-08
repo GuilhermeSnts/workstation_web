@@ -23,6 +23,11 @@ export default {
         icon: "mdi-file-document-box-check-outline",
         text: "Work Orders",
         route: "/work-orders"
+      },
+      {
+        icon: "mdi-ticket",
+        text: "Tickets",
+        route: "/tickets"
       }
     ]
   }),
