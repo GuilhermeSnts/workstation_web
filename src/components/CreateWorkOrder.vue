@@ -90,7 +90,18 @@
           <v-select
             v-model="wo.hardware_type"
             label="Tipo de hardware"
-            :items="['Desktop', 'Notebook']"
+            :items="[
+              'Desktop',
+              'Notebook',
+              'Impressora',
+              'Modem',
+              'Roteador',
+              'CFTV',
+              'Ultrabook',
+              'Netbook',
+              'Servidor',
+              'Scanner'
+            ]"
             :rules="[v => !!v || 'Item is required']"
             dense
             outlined
