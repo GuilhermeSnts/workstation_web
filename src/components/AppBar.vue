@@ -3,7 +3,7 @@
     <v-app-bar-nav-icon @click="sideBar = !sideBar"></v-app-bar-nav-icon>
 
     <div class="d-flex align-center">
-      <v-toolbar-title><b>Intranet</b></v-toolbar-title>
+      <v-toolbar-title><b>T2</b> Manager</v-toolbar-title>
     </div>
 
     <v-spacer></v-spacer>
