@@ -149,17 +149,15 @@ export default {
 
   methods: {
     searchPostalCode(postal_code) {
-      fetch(`http://www.viacep.com.br/ws/${postal_code}/json/`)
-        .then(({ data }) => {
-          console.log(data);
+      fetch(`http://www.viacep.com.br/ws/${postal_code}/json/`).then(
+        ({ data }) => {
           this.customer.neighborhood = data.bairro;
           this.customer.street = data.rua;
-        })
-        .catch(err => console.log(err));
+        }
+      );
     },
 
     validate() {
-      console.log("validate", this.$refs.form.validate());
       if (this.$refs.form.validate()) {
         this.createCustomer();
       } else {
@@ -168,18 +166,15 @@ export default {
       }
     },
     createCustomer() {
-      console.log("customer");
       this.$http
         .post("/customers", this.customer)
         .then(() => {
-          console.log("Cliente cadastrado com sucesso!");
           this.snackbar = true;
           this.snackbarText = "Cliente cadastrado com sucesso!";
           this.dialog = false;
           this.$emit("update");
         })
-        .catch(err => {
-          console.log(err);
+        .catch(() => {
           this.snackbar = true;
           this.snackbarText = "Houve um erro ao cadastrar o cliente";
         });

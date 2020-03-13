@@ -124,12 +124,13 @@ export default {
             this.$emit("update");
           })
           .catch(error => {
-            console.log(error);
+            alert(error);
           });
       } else {
-        console.log("erro");
+        alert("erro");
       }
     },
+
     searchCustomer() {
       this.customerLoading = true;
       this.$http(`/customers/search/${this.customerToSearch}`)
