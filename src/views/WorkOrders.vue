@@ -2,10 +2,18 @@
   <v-row align="center" justify="center" class="ma-4">
     <v-col cols="12" sm="12" lg="12">
       <v-card>
-        <v-card-title>
-          Ordens de Serviço
-        </v-card-title>
         <v-card-text>
+          <v-col cols="12" xs="12" sm="6" md="4">
+            <v-text-field
+              label="Pesquisar por código interno"
+              v-model="search"
+              clearable
+              filled
+              append-icon="mdi-magnify"
+              dense
+            ></v-text-field>
+          </v-col>
+
           <v-data-table
             :headers="headers"
             :items="workOrders"
@@ -59,7 +67,8 @@ export default {
     workOrders: [],
     totalItens: 0,
     page: 1,
-    selectedWorkOrder: []
+    selectedWorkOrder: [],
+    search: ""
   }),
 
   components: {
@@ -86,11 +95,23 @@ export default {
         this.workOrders = res.data.work_orders;
         this.totalItens = res.data.count;
       });
+    },
+    getWorkOrderBySeachTerm() {
+      this.$http(`/work-orders/search/${this.search}`).then(res => {
+        this.workOrders = res.data;
+      });
     }
   },
   watch: {
     page() {
       this.getWorkOrders();
+    },
+    search(value) {
+      if (value) {
+        this.getWorkOrderBySeachTerm();
+      } else {
+        this.getWorkOrders();
+      }
     }
   },
   mounted() {
