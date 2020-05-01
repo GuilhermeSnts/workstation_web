@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import { mapMutations, mapGetters } from "vuex";
 export default {
   data: () => ({
     menu: [
@@ -54,16 +55,24 @@ export default {
       { icon: "mdi-power", text: "Logoff", route: "/auth" }
     ]
   }),
+  methods: {
+    ...mapMutations("settings", ["setSideBar"])
+  },
+
   computed: {
+    ...mapGetters("user", ["getUserData"]),
+    ...mapGetters("settings", ["getSideBar"]),
+
     user() {
-      return this.$store.state.user;
+      return this.getUserData;
     },
+
     sideBar: {
       get() {
-        return this.$store.state.settings.sideBar;
+        return this.getSideBar;
       },
       set(value) {
-        this.$store.commit("setSideBar", value);
+        this.setSideBar(value);
       }
     }
   }

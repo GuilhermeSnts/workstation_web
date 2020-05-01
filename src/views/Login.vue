@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions, mapMutations } from "vuex";
 export default {
   data: () => ({
     isLoading: false,
@@ -68,52 +69,40 @@ export default {
     username: "",
     password: ""
   }),
+
+  computed: {
+    ...mapGetters("user", ["getToken"])
+  },
+
   methods: {
+    ...mapMutations("settings", ["setClientCode"]),
+    ...mapActions("user", ["doClearUserData", "doLogIn"]),
+
     login() {
-      let data = {
+      this.isLoading = true;
+      this.doLogIn({
         client_code: this.client_code,
         username: this.username,
         password: this.password
-      };
-      this.isLoading = true;
-      this.$http
-        .post("/authenticate", { ...data })
-        .then(res => {
-          this.$store.commit("setUser", { ...res.data });
-          this.$store.commit("setClientCode", this.client_code);
+      })
+        .then(() => {
+          this.setClientCode(this.client_code);
           this.$router.push("/");
         })
-        .catch(err => {
-          this.showSnackbar(err.response.data.msg);
+        .catch(error => {
+          this.showSnackbar(error);
         })
         .finally(() => (this.isLoading = false));
-    },
-
-    clearData() {
-      let hasToken = this.$store.state.user.token;
-      if (hasToken) {
-        this.$store.commit("setUser", {
-          first_name: "",
-          last_name: "",
-          token: "",
-          username: ""
-        });
-      }
     },
 
     showSnackbar(msg) {
       this.snackbar = true;
       this.snackbarMessage = msg;
-    },
-
-    rememberLastClientCode() {
-      this.client_code = this.$store.state.settings.client_code;
     }
   },
 
   mounted() {
-    this.clearData();
-    this.rememberLastClientCode();
+    this.doClearUserData();
   }
 };
 </script>

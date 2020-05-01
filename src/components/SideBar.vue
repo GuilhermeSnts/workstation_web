@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import { mapMutations, mapGetters } from "vuex";
 export default {
   data: () => ({
     menu: [
@@ -32,13 +33,19 @@ export default {
     ]
   }),
 
+  methods: {
+    ...mapMutations("settings", ["setSideBar"])
+  },
+
   computed: {
+    ...mapGetters("settings", ["getSideBar"]),
+
     sideBar: {
       get() {
-        return this.$store.state.settings.sideBar;
+        return this.getSideBar;
       },
       set(value) {
-        this.$store.commit("setSideBar", value);
+        this.setSideBar(value);
       }
     }
   }
