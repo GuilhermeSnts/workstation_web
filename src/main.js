@@ -6,7 +6,9 @@ import store from "./store";
 import vuetify from "./plugins/vuetify";
 import "roboto-fontface/css/roboto/roboto-fontface.css";
 import "@mdi/font/css/materialdesignicons.css";
-import "./plugins/axios";
+import axios from "./plugins/axios";
+
+Vue.use((Vue.prototype.$http = axios));
 Vue.config.productionTip = false;
 
 new Vue({

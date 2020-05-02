@@ -1,7 +1,6 @@
 import axios from "axios";
 import store from "../store";
 import router from "../router";
-import Vue from "vue";
 import baseURL from "../baseUrl.js";
 axios.defaults.baseURL = baseURL;
 
@@ -29,4 +28,4 @@ axios.interceptors.response.use(
   }
 );
 
-Vue.use((Vue.prototype.$http = axios));
+export default axios;
