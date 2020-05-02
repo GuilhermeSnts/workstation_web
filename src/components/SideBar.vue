@@ -3,7 +3,7 @@
     <v-list dense nav v-for="(item, index) in menu" :key="index">
       <v-list-item :to="item.route">
         <v-list-item-action>
-          <v-icon>{{ item.icon }}</v-icon>
+          <f-icon :icon="item.icon" />
         </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title>{{ item.text }}</v-list-item-title>
@@ -15,23 +15,27 @@
 
 <script>
 import { mapMutations, mapGetters } from "vuex";
+import FIcon from "@/components/FIcon";
 export default {
   data: () => ({
     menu: [
-      { icon: "mdi-view-dashboard", text: "Dashboard", route: "/" },
-      { icon: "mdi-account-multiple", text: "Customers", route: "/customers" },
+      { icon: "activity", text: "Dashboard", route: "/" },
+      { icon: "users", text: "Customers", route: "/customers" },
       {
-        icon: "mdi-file-document-box-check-outline",
+        icon: "inbox",
         text: "Work Orders",
         route: "/work-orders"
       },
       {
-        icon: "mdi-ticket",
+        icon: "life-buoy",
         text: "Tickets",
         route: "/tickets"
       }
     ]
   }),
+  components: {
+    FIcon
+  },
 
   methods: {
     ...mapMutations("settings", ["setSideBar"])
