@@ -6,7 +6,7 @@
         <v-card-text>
           <v-data-table
             :headers="headers"
-            :items="customers"
+            :items="getCustomersList"
             :items-per-page="5"
             single-select
             hide-default-footer
@@ -17,13 +17,13 @@
           >
           </v-data-table>
           <v-pagination
-            v-model="page"
-            :length="totalPages"
+            v-model="currentPage"
+            :length="getTotalPages"
             total-visible="5"
           ></v-pagination>
         </v-card-text>
         <v-card-actions>
-          <create-customer @update="getCustomers" />
+          <create-customer @update="doGetCustomers" />
         </v-card-actions>
       </v-card>
     </v-col>
@@ -87,6 +87,7 @@
 </template>
 
 <script>
+import { mapActions, mapMutations, mapGetters } from "vuex";
 import CreateCustomer from "@/components/CreateCustomer.vue";
 export default {
   data: () => ({
@@ -100,9 +101,6 @@ export default {
       { text: "e-mail", value: "email" },
       { text: "Telefone", value: "phone" }
     ],
-    customers: [],
-    totalItens: 0,
-    page: 1,
     selectedCustomer: []
   }),
 
@@ -119,26 +117,28 @@ export default {
         return {};
       }
     },
-    totalPages() {
-      return Math.floor(this.totalItens / 5);
-    }
+    currentPage: {
+      get() {
+        return this.getCurrentPage;
+      },
+      set(value) {
+        this.setCurrentPage(value);
+      }
+    },
+    ...mapGetters("customers", [
+      "getCurrentPage",
+      "getCustomersList",
+      "getTotalPages"
+    ])
   },
 
   methods: {
-    getCustomers() {
-      this.$http(`/customers?page=${this.page}`).then(res => {
-        this.customers = res.data.customers;
-        this.totalItens = res.data.count;
-      });
-    }
+    ...mapMutations("customers", ["setCurrentPage"]),
+    ...mapActions("customers", ["doGetCustomers"])
   },
-  watch: {
-    page() {
-      this.getCustomers();
-    }
-  },
+
   mounted() {
-    this.getCustomers();
+    this.doGetCustomers();
   }
 };
 </script>

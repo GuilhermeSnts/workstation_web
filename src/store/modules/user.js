@@ -1,5 +1,4 @@
-import axios from "axios";
-import baseUrl from "../../baseUrl.js";
+import axios from "@/plugins/axios";
 export default {
   namespaced: true,
   state: {
@@ -56,7 +55,7 @@ export default {
     doLogIn(context, data) {
       return new Promise((resolve, reject) => {
         axios
-          .post(baseUrl + "/authenticate", { ...data })
+          .post("/authenticate", { ...data })
           .then(res => {
             context.commit("setUserData", { ...res.data });
             resolve(res.data);
