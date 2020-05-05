@@ -1,12 +1,13 @@
 <template>
-  <i :data-feather="icon"></i>
+  <i :data-feather="icon" :class="size"></i>
 </template>
 
 <script>
 import feather from "feather-icons";
 export default {
   props: {
-    icon: String
+    icon: String,
+    size: String
   },
   mounted() {
     feather.replace();
@@ -14,4 +15,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="sass" scoped>
+.small
+  height: 15px
+.big
+  height: 30px
+</style>
