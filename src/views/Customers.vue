@@ -1,96 +1,24 @@
 <template>
-  <v-row align="center" justify="center" class="ma-4">
-    <v-col cols="12" sm="12" lg="8">
-      <v-card>
-        <v-card-title> Clientes </v-card-title>
-        <v-card-text>
-          <v-data-table
-            :headers="headers"
-            :items="getCustomersList"
-            :items-per-page="5"
-            single-select
-            hide-default-footer
-            v-model="selectedCustomer"
-            item-key="id"
-            show-select
-            height="300"
-          >
-          </v-data-table>
-          <v-pagination
-            v-model="currentPage"
-            :length="getTotalPages"
-            total-visible="5"
-          ></v-pagination>
-        </v-card-text>
-        <v-card-actions>
-          <create-customer @update="doGetCustomers" />
-        </v-card-actions>
-      </v-card>
-    </v-col>
-
-    <v-col cols="12" sm="12" lg="4">
-      <v-card>
-        <v-list-item v-if="customer.name">
-          <v-list-item-avatar color="blue">
-            <v-icon class="white--text">mdi-account-tie</v-icon>
-          </v-list-item-avatar>
-          <v-list-item-content>
-            <v-list-item-title class="headline">{{
-              customer.name
-            }}</v-list-item-title>
-            <v-list-item-subtitle>{{
-              customer.document_number
-            }}</v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-
-        <v-card-text>
-          <div v-show="customer.name">
-            <p>
-              <v-icon color="blue" left>mdi-email-outline</v-icon>
-              {{ customer.email || "Não infomado" }}
-            </p>
-            <p>
-              <v-icon color="blue" left>mdi-phone-outline</v-icon>
-              {{ customer.phone || "Não infomado" }}
-            </p>
-            <p>
-              <v-icon color="blue" left>mdi-map-marker-radius</v-icon
-              >{{ customer.street || "Não infomado" }},{{
-                customer.address_number
-              }}
-              {{ customer.complement }} {{ customer.neighborhood }}
-              {{ customer.city }}
-            </p>
-          </div>
-
-          <div v-show="!customer.name">
-            <p class="text-center">
-              <v-icon color="darkgray" large>mdi-account-tie</v-icon>
-            </p>
-            <p class="text-center gray--text">
-              Selecione um cliente para ver suas informações
-            </p>
-          </div>
-        </v-card-text>
-
-        <v-divider v-show="customer.name"></v-divider>
-        <v-card-actions v-show="customer.name">
-          <v-btn text color="blue">
-            <v-icon left>mdi-account-edit</v-icon>
-            Editar
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-col>
-  </v-row>
+  <div class="customers">
+    <p>{{ getTotalCustomers }} clientes cadastrados</p>
+    <create-customer @update="doGetCustomers" />
+    <CustomerListItem
+      v-for="(item, index) in getCustomersList"
+      :key="index"
+      :customer="item.name"
+      :email="item.email"
+      :telephone="item.telephone"
+    />
+  </div>
 </template>
 
 <script>
-import { mapActions, mapMutations, mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import CreateCustomer from "@/components/CreateCustomer.vue";
+import CustomerListItem from "@/components/customers/CustomerListItem.vue";
 export default {
   data: () => ({
+    scrolled: false,
     headers: [
       {
         text: "Cliente",
@@ -105,7 +33,8 @@ export default {
   }),
 
   components: {
-    CreateCustomer
+    CreateCustomer,
+    CustomerListItem
   },
 
   computed: {
@@ -117,24 +46,30 @@ export default {
         return {};
       }
     },
-    currentPage: {
-      get() {
-        return this.getCurrentPage;
-      },
-      set(value) {
-        this.setCurrentPage(value);
+    ...mapGetters("customers", ["getCustomersList", "getTotalCustomers"])
+  },
+  created() {
+    window.addEventListener("scroll", this.handleScroll);
+  },
+  destroyed() {
+    window.removeEventListener("scroll", this.handleScroll);
+  },
+  methods: {
+    handleScroll() {
+      console.log("scrol");
+      if (
+        Math.max(
+          window.pageYOffset,
+          document.documentElement.scrollTop,
+          document.body.scrollTop
+        ) +
+          window.innerHeight >=
+        document.documentElement.offsetHeight
+      ) {
+        this.doAddPage();
       }
     },
-    ...mapGetters("customers", [
-      "getCurrentPage",
-      "getCustomersList",
-      "getTotalPages"
-    ])
-  },
-
-  methods: {
-    ...mapMutations("customers", ["setCurrentPage"]),
-    ...mapActions("customers", ["doGetCustomers"])
+    ...mapActions("customers", ["doGetCustomers", "doAddPage"])
   },
 
   mounted() {
@@ -142,3 +77,13 @@ export default {
   }
 };
 </script>
+
+<style lang="sass" scoped>
+.customers
+  display: flex
+  flex-flow: column
+  justify-content: center
+  vertical-align: middle
+  min-width: 300px
+  max-width: 500px
+</style>
