@@ -1,13 +1,13 @@
-<template
-  ><v-row align="center" justify="center">
+<template>
+  <v-row align="center" justify="center">
     <v-card width="400" min-height="300">
-      <v-card-text>
-        <p class="text-center headline">Login</p>
-      </v-card-text>
-
-      <v-divider></v-divider>
-
       <v-card-text class="pl-8 pr-8 ">
+        <v-row class="mb-10 mx-auto " align="center" justify="center">
+          <div>
+            <v-img src="@/assets/intratec.png" width="75"></v-img>
+          </div>
+        </v-row>
+        <p class="text-center headline mb-10">Log in</p>
         <v-form @submit.prevent="login()" v-model="valid" lazy-validation>
           <v-row class="pa-n2 ma-n4 mx-auto " align="center" justify="center">
             <v-col xs="6" sm="6" md="6" lg="6" xl="6">
@@ -42,7 +42,7 @@
             >Login</v-btn
           >
         </v-form>
-        <v-btn class="mt-6" text small color="blue">
+        <v-btn v-if="false" class="mt-6" text small color="blue">
           Esqueceu a senha?
         </v-btn>
       </v-card-text>

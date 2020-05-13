@@ -56,7 +56,6 @@ export default {
   },
   methods: {
     handleScroll() {
-      console.log("scrol");
       if (
         Math.max(
           window.pageYOffset,
