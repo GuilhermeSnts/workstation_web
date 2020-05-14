@@ -12,8 +12,8 @@ export default {
 
 <style scoped>
 .background {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,5 +23,6 @@ export default {
     url("../assets/login_bg.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed;
 }
 </style>
