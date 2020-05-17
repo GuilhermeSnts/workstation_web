@@ -4,7 +4,7 @@ export default {
   namespaced: true,
   state: {
     customersList: [],
-    customersPerPage: 10,
+    customersPerPage: 20,
     currentPage: 1,
     lastSync: null,
     totalCustomers: 0,

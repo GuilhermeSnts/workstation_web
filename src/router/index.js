@@ -16,7 +16,7 @@ const routes = [
           import(/*webpackChunkName: "login"*/ "../views/Login.vue")
       },
       {
-        path: "",
+        path: "reset",
         component: () =>
           import(
             /*webpackChunkName: "reset-password"*/ "../views/ResetPassword.vue"
@@ -47,10 +47,24 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "customers" */ "../views/Customers.vue"),
     meta: {
-      requiresAuth: true,
-      title: "Clientes",
-      icon: "mdi-accounts"
-    }
+      requiresAuth: true
+    },
+    children: [
+      {
+        path: "",
+        component: () =>
+          import(
+            /*webpackChunkName: "customer-list"*/ "../components/customers/CustomerList.vue"
+          )
+      },
+      {
+        path: ":id",
+        component: () =>
+          import(
+            /*webpackChunkName: "customer-page"*/ "../components/customers/CustomerPage.vue"
+          )
+      }
+    ]
   },
   {
     path: "/work-orders",
