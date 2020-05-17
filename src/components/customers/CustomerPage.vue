@@ -15,8 +15,8 @@
       >
       </v-img>
       <v-card-text>
-        <p class="headline">{{ customer.name }}</p></v-card-text
-      >
+        <p class="headline">{{ customer.name }}</p>
+      </v-card-text>
       <v-chip
         small
         class="ml-4 mb-4 mt-n4"
@@ -40,6 +40,25 @@
         <v-divider inset></v-divider>
         <customer-data-item :address="address" icon="mdi-map-marker" />
       </v-list>
+      <v-divider inset></v-divider>
+      <div class="ma-4">
+        <add-customer-departments
+          :id="customer.id"
+          :customerDepartments="departments"
+          @update="getDepartments()"
+        />
+      </div>
+      <v-list two-line color="grey darken-3">
+        <v-alert v-if="!departments.length" class="ma-4" color="grey" dense>
+          Nenhum departamento foi adicionado ainda
+        </v-alert>
+        <customer-data-item
+          v-for="(item, index) in departments"
+          :key="index"
+          :data="item.department_name"
+          icon="mdi-briefcase-outline"
+        />
+      </v-list>
     </v-card>
   </v-content>
 </template>
@@ -47,10 +66,12 @@
 <script>
 import CustomerDataItem from "./CustomerDataItem.vue";
 import EditCustomer from "./EditCustomer.vue";
+import AddCustomerDepartments from "./AddCustomerDepartments.vue";
 export default {
   name: "customer-page",
 
   data: () => ({
+    departments: [],
     customer: {},
     address: {},
     customerLoading: false
@@ -58,7 +79,8 @@ export default {
 
   components: {
     CustomerDataItem,
-    EditCustomer
+    EditCustomer,
+    AddCustomerDepartments
   },
 
   methods: {
@@ -75,7 +97,14 @@ export default {
             neighborhood: res.data.neighborhood,
             complement: res.data.complement
           };
+          this.getDepartments();
         })
+        .catch(err => alert(err))
+        .finally((this.customerLoading = false));
+    },
+    getDepartments() {
+      this.$http(`/departments/customer/${this.$route.params.id}`)
+        .then(res => (this.departments = res.data))
         .catch(err => alert(err))
         .finally((this.customerLoading = false));
     }
