@@ -1,15 +1,29 @@
 <template>
-  <v-dialog v-model="dialog" width="400" scrollable>
+  <v-dialog
+    v-model="dialog"
+    width="400"
+    scrollable
+    :fullscreen="$vuetify.breakpoint.xsOnly"
+    transition="slide-x-transition"
+  >
     <template v-slot:activator="{ on }">
-      <v-btn text color="blue" v-on="on">
-        <v-icon left>mdi-account-plus</v-icon>
-        Novo Cliente
+      <v-btn small class="blue" v-on="on">
+        <v-icon left>mdi-account-edit</v-icon>
+        Editar
       </v-btn>
     </template>
 
     <v-card>
-      <v-card-title>
-        Cadastrar um novo cliente
+      <v-toolbar dark color="primary" v-if="$vuetify.breakpoint.xsOnly">
+        <v-btn icon dark @click="dialog = false">
+          <v-icon>mdi-arrow-left</v-icon>
+        </v-btn>
+        <v-toolbar-title>Editar Cliente</v-toolbar-title>
+        <v-spacer></v-spacer>
+      </v-toolbar>
+
+      <v-card-title v-if="$vuetify.breakpoint.smAndUp">
+        Editar Cliente
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text class="pa-4"
@@ -103,7 +117,7 @@
         <v-btn @click="dialog = false" text>cancelar</v-btn>
         <v-spacer></v-spacer>
         <v-btn color="blue" @click="validate">
-          <v-icon left>mdi-content-save</v-icon> Cadastrar</v-btn
+          <v-icon left>mdi-content-save</v-icon> Salvar</v-btn
         >
       </v-card-actions>
 
@@ -119,12 +133,14 @@
 
 <script>
 export default {
+  props: ["data", "id"],
+
   data: () => ({
     customer: {
       name: "",
       email: "",
       phone: "",
-      is_company: false,
+      is_company: "",
       document_number: "",
       postal_code: "",
       address_number: "",
@@ -137,6 +153,7 @@ export default {
     snackbar: false,
     snackbarText: ""
   }),
+
   computed: {
     document_type() {
       if (this.customer.is_company) {
@@ -159,25 +176,36 @@ export default {
 
     validate() {
       if (this.$refs.form.validate()) {
-        this.createCustomer();
+        this.saveCustomer();
       } else {
         this.snackbar = true;
         this.snackbarText = "Existem campos obrigatórios não preenchidos";
       }
     },
-    createCustomer() {
+
+    saveCustomer() {
       this.$http
-        .post("/customers", this.customer)
+        .post(`/customer/${this.id}`, this.customer)
         .then(() => {
           this.snackbar = true;
-          this.snackbarText = "Cliente cadastrado com sucesso!";
+          this.snackbarText = "Cliente atualizado com sucesso!";
           this.dialog = false;
           this.$emit("update");
         })
         .catch(() => {
           this.snackbar = true;
-          this.snackbarText = "Houve um erro ao cadastrar o cliente";
+          this.snackbarText = "Houve um erro ao salvar o cliente";
         });
+    },
+    setInitialState() {
+      let data = { ...this.data };
+      delete data.id;
+      this.customer = data;
+    }
+  },
+  watch: {
+    dialog() {
+      this.setInitialState();
     }
   }
 };
