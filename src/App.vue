@@ -2,20 +2,11 @@
   <v-app>
     <app-bar v-if="hasUser"></app-bar>
     <side-bar v-if="hasUser"></side-bar>
-    <v-content>
-      <v-container fluid class="fill-height">
-        <v-row no-gutters align="start" justify="start">
-          <div class="headline">
-            <v-icon left>{{ route.meta.icon }}</v-icon>
-            {{ route.meta.title }}
-          </div>
-        </v-row>
-
-        <v-layout justify-center align-center>
-          <router-view></router-view>
-        </v-layout>
-      </v-container>
-    </v-content>
+    <v-container fluid class="fill-height">
+      <v-layout justify-center align-center>
+        <router-view></router-view>
+      </v-layout>
+    </v-container>
   </v-app>
 </template>
 
