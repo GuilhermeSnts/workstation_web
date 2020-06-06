@@ -31,13 +31,14 @@
           <v-text-field
             v-model="customer.name"
             label="Nome do Cliente *"
-            :rules="[v => !!v || 'Item is required']"
+            :rules="rules.name"
             dense
             outlined
             required
           ></v-text-field>
           <v-text-field
             v-model="customer.email"
+            :rules="rules.email"
             label="e-mail *"
             dense
             outlined
@@ -149,7 +150,19 @@ export default {
     dialog: false,
     valid: true,
     snackbar: false,
-    snackbarText: ""
+    snackbarText: "",
+    rules: {
+      name: [
+        v => !!v || "Campo obrigatório",
+        v => v.length >= 10 || "Nome deve ter pelo menos 10 caracteres",
+        v => v.length <= 255 || "Nome deve ter no máximo 255 caracteres"
+      ],
+      email: [
+        v => !!v || "Campo obrigatório",
+        v => /.+@.+/.test(v) || "Insira um email válido",
+        v => v.length <= 45 || "Email deve ter no máximo 45 caracteres"
+      ]
+    }
   }),
   computed: {
     document_type() {

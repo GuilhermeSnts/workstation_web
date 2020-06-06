@@ -13,7 +13,7 @@
       </v-card-actions>
     </v-card>
 
-    <v-list two-line>
+    <v-list two-line nav>
       <v-list-item
         :to="'/customers/' + item.id"
         v-for="(item, index) in getCustomersList"
