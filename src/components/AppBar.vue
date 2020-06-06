@@ -3,7 +3,7 @@
     <v-app-bar-nav-icon @click="sideBar = !sideBar"></v-app-bar-nav-icon>
 
     <div class="d-flex align-center">
-      <v-toolbar-title><b>Intratec</b></v-toolbar-title>
+      <v-toolbar-title><b>IntraTec</b></v-toolbar-title>
     </div>
 
     <v-spacer></v-spacer>
@@ -52,6 +52,7 @@ export default {
   data: () => ({
     menu: [
       { icon: "mdi-account", text: "Conta", route: "/account" },
+      { icon: "mdi-cogs", text: "Configurações", route: "/config" },
       { icon: "mdi-power", text: "Logoff", route: "/auth" }
     ]
   }),
