@@ -6,6 +6,7 @@ import store from "../store/index.js";
 Vue.use(VueRouter);
 
 const routes = [
+  // AUTH
   {
     path: "/auth",
     component: () => import(/*webpackChunkName: "auth"*/ "../views/Auth.vue"),
@@ -41,6 +42,18 @@ const routes = [
       requiresAuth: true
     }
   },
+  {
+    path: "/account",
+    name: "account",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/Account.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+
+  // CUSTOMERS
+
   {
     path: "/customers",
     name: "customers",
