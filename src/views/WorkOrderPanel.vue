@@ -219,9 +219,9 @@
 
 <script>
 import dayjs from "dayjs";
-import UpdateWorkOrderStatus from "@/components/UpdateWorkOrderStatus.vue";
-import UpdateWorkOrderInCharge from "@/components/UpdateWorkOrderInCharge.vue";
-import FinishWorkOrder from "@/components/FinishWorkOrder.vue";
+import UpdateWorkOrderStatus from "@/components/workOrders/UpdateWorkOrderStatus.vue";
+import UpdateWorkOrderInCharge from "@/components/workOrders/UpdateWorkOrderInCharge.vue";
+import FinishWorkOrder from "@/components/workOrders/FinishWorkOrder.vue";
 export default {
   data: () => ({
     wo: {},

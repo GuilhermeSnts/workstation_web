@@ -48,7 +48,7 @@
 
 <script>
 import dayjs from "dayjs";
-import CreateWorkOrder from "@/components/CreateWorkOrder.vue";
+import CreateWorkOrder from "@/components/workOrders/CreateWorkOrder.vue";
 export default {
   data: () => ({
     headers: [
