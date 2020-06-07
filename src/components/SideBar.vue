@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer mini-variant app v-model="sideBar">
+  <v-navigation-drawer color="grey darken-3" app v-model="sideBar">
     <v-list dense nav v-for="(item, index) in menu" :key="index">
       <v-list-item :to="item.route">
         <v-list-item-action>

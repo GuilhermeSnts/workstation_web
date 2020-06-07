@@ -31,3 +31,11 @@ export default {
   }
 };
 </script>
+
+<style lang="sass">
+.theme--dark.v-application
+  background-color: var(--v-background-base, #333333) !important
+
+.theme--dark.v-application
+  background-color: var(--v-background-base, #eeeeee) !important
+</style>

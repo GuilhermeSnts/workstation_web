@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="primary" dark>
+  <v-app-bar app dark color="grey darken-3" dense>
     <v-app-bar-nav-icon @click="sideBar = !sideBar"></v-app-bar-nav-icon>
 
     <div class="d-flex align-center">

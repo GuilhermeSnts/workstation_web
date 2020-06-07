@@ -13,22 +13,24 @@
       </v-card-actions>
     </v-card>
 
-    <v-list two-line nav>
-      <v-list-item
-        :to="'/customers/' + item.id"
-        v-for="(item, index) in getCustomersList"
-        :key="index"
-      >
-        <v-list-item-avatar color="blue">
-          <v-icon color="white">mdi-account</v-icon>
-        </v-list-item-avatar>
+    <v-card class="mt-4">
+      <v-list two-line nav color="grey darken-3">
+        <v-list-item
+          :to="'/customers/' + item.id"
+          v-for="(item, index) in getCustomersList"
+          :key="index"
+        >
+          <v-list-item-avatar color="blue">
+            <v-icon color="white">mdi-account</v-icon>
+          </v-list-item-avatar>
 
-        <v-list-item-content>
-          <v-list-item-title v-text="item.name" />
-          <v-list-item-subtitle v-text="item.email" />
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
+          <v-list-item-content>
+            <v-list-item-title v-text="item.name" />
+            <v-list-item-subtitle v-text="item.email" />
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-card>
   </v-content>
 </template>
 
