@@ -79,30 +79,34 @@ const routes = [
       }
     ]
   },
+
+  // Work Orders
   {
     path: "/work-orders",
-    name: "workOrders",
+    name: "work orders",
     component: () =>
-      import(/* webpackChunkName: "orkorders" */ "../views/WorkOrders.vue"),
+      import(/* webpackChunkName: "customers" */ "../views/Customers.vue"),
     meta: {
-      requiresAuth: true,
-      title: "Ordens De Serviço",
-      icon: "mdi-file-outline"
-    }
+      requiresAuth: true
+    },
+    children: [
+      {
+        path: "",
+        component: () =>
+          import(
+            /*webpackChunkName: "Work-Orders"*/ "../components/workOrders/WorkOrders.vue"
+          )
+      },
+      {
+        path: ":internal_code",
+        component: () =>
+          import(
+            /*webpackChunkName: "WorkOrder-Panel"*/ "../components/workOrders/WorkOrderPanel.vue"
+          )
+      }
+    ]
   },
-  {
-    path: "/work-orders/:internal_code",
-    name: "workOrderPanel",
-    component: () =>
-      import(
-        /* webpackChunkName: "workOrderPanel" */ "../views/WorkOrderPanel.vue"
-      ),
-    meta: {
-      requiresAuth: true,
-      title: "Ordem De Serviço",
-      icon: "mdi-file-outline"
-    }
-  },
+
   {
     path: "/tickets",
     name: "Tickets",

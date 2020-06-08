@@ -1,8 +1,8 @@
 <template>
   <v-dialog v-model="dialog" width="800" scrollable>
     <template v-slot:activator="{ on }">
-      <v-btn text color="blue" v-on="on">
-        <v-icon left>mdi-file-document-box-plus-outline</v-icon>
+      <v-btn text v-on="on">
+        <v-icon left>mdi-file-plus</v-icon>
         Nova Ordem de Serviço
       </v-btn>
     </template>
