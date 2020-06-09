@@ -1,9 +1,9 @@
 <template>
-  <v-dialog v-model="dialog" width="300" scrollable>
+  <v-dialog v-model="dialog" width="350" scrollable>
     <template v-slot:activator="{ on }">
       <v-btn color="blue" text v-on="on">trocar encarregado</v-btn>
     </template>
-    <v-card>
+    <v-card class="grey darken-3">
       <v-card-title>Alterar encarregado {{ internalCode }} </v-card-title>
       <v-card-text>
         <p>
@@ -12,6 +12,8 @@
           hora e quem era encarregado antes da sua alteração.
         </p>
         <v-select
+          solo
+          light
           label="Encarregado"
           :items="userList"
           item-text="username"

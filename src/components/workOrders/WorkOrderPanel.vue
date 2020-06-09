@@ -1,5 +1,9 @@
 <template>
   <v-content>
+    <v-btn text class="mb-4" small to="/work-orders"
+      ><v-icon left>mdi-arrow-left</v-icon> voltar</v-btn
+    >
+
     <v-tabs background-color="primary" dark>
       <v-tab>
         <v-icon v-text="'mdi-information-outline'" left />
@@ -15,7 +19,7 @@
       </v-tab-item>
 
       <v-tab-item>
-        <WorkOrderTimeline :wo="wo" :WorkOrderNotes="WorkOrderNotes" />
+        <WorkOrderTimeline :wo="wo" />
       </v-tab-item>
     </v-tabs>
   </v-content>
@@ -32,8 +36,7 @@ export default {
 
   data: () => ({
     wo: {},
-    userInCharge: {},
-    WorkOrderNotes: []
+    userInCharge: {}
   }),
 
   methods: {
@@ -45,20 +48,12 @@ export default {
           if (this.wo.in_charge) {
             this.getUser();
           }
-          this.getWorkOrderNotes();
         })
         .catch(err => alert(err));
     },
     getUser() {
       this.$http(`/user/${this.wo.in_charge}`)
         .then(res => (this.userInCharge = res.data))
-        .catch(err => alert(err));
-    },
-    getWorkOrderNotes() {
-      this.$http(`/work-order-notes/${this.wo.id}`)
-        .then(res => {
-          this.WorkOrderNotes = res.data;
-        })
         .catch(err => alert(err));
     }
   },

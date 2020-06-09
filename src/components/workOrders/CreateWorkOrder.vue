@@ -1,5 +1,10 @@
 <template>
-  <v-dialog v-model="dialog" width="800" scrollable>
+  <v-dialog
+    v-model="dialog"
+    width="800"
+    scrollable
+    :fullscreen="$vuetify.breakpoint.xsOnly"
+  >
     <template v-slot:activator="{ on }">
       <v-btn text v-on="on">
         <v-icon left>mdi-file-plus</v-icon>
@@ -7,10 +12,19 @@
       </v-btn>
     </template>
 
-    <v-card>
-      <v-card-title>
+    <v-card color="grey darken-3">
+      <v-toolbar dark color="primary" v-if="$vuetify.breakpoint.xsOnly">
+        <v-btn icon dark @click="dialog = false">
+          <v-icon>mdi-arrow-left</v-icon>
+        </v-btn>
+        <v-toolbar-title>Cadastrar nova ordem de serviço</v-toolbar-title>
+        <v-spacer></v-spacer>
+      </v-toolbar>
+
+      <v-card-title v-if="$vuetify.breakpoint.smAndUp">
         Cadastrar nova ordem de serviço
       </v-card-title>
+
       <v-divider></v-divider>
       <v-card-text class="pa-4"
         ><v-form ref="form" v-model="valid" lazy-validation>

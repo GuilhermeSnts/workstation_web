@@ -3,14 +3,15 @@
     <template v-slot:activator="{ on }">
       <v-btn color="blue" text v-on="on">finalizar </v-btn>
     </template>
-    <v-card>
+
+    <v-card class="grey darken-3">
       <v-card-title>Finalizar {{ internalCode }} </v-card-title>
-      <v-card-text>
+      <v-card-text class="pt-4">
         <v-form v-model="finishForm" ref="form" lazy-validation>
           <v-textarea
-            :rules="[v => !!v || 'Item is required']"
-            outlined
+            :rules="[v => !!v || 'É necessário preencher este campo']"
             dense
+            filled
             label="Conclusão"
             v-model="work_performed"
           ></v-textarea>
@@ -20,7 +21,7 @@
       <v-card-actions>
         <v-btn text @click="dialog = false">cancelar</v-btn>
         <v-spacer></v-spacer>
-        <v-btn dark color="blue" @click="validate()">concluir</v-btn>
+        <v-btn dark color="secondary" @click="validate()">concluir</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

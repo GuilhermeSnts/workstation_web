@@ -1,9 +1,9 @@
 <template>
-  <v-dialog width="300" scrollable v-model="dialog">
+  <v-dialog width="350" scrollable v-model="dialog">
     <template v-slot:activator="{ on }">
       <v-btn color="blue" text v-on="on">trocar status </v-btn>
     </template>
-    <v-card>
+    <v-card class="grey darken-3">
       <v-card-title>Alterar Status {{ internalCode }} </v-card-title>
       <v-card-text>
         <p>
@@ -12,6 +12,8 @@
           qual status estava antes da sua alteração.
         </p>
         <v-select
+          solo
+          light
           label="Status"
           :items="statusList"
           item-text="status"

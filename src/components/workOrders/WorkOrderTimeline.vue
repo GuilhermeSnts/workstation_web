@@ -13,24 +13,7 @@
 
       <v-timeline-item fill-dot v-if="!wo.finished_at" color="orange">
         <template v-slot:icon><v-icon>mdi-note-plus-outline</v-icon></template>
-
-        <v-card>
-          <v-card-text>
-            <div class="caption font-weight-light">
-              {{ new Date() | date }}
-            </div>
-            <v-text-field
-              label="Titulo"
-              solo
-              light
-              v-model="note.title"
-            ></v-text-field>
-            <v-textarea label="Nota" solo light v-model="note.note"></v-textarea
-          ></v-card-text>
-          <v-card-actions>
-            <v-btn text @click="createNote()">gravar</v-btn></v-card-actions
-          >
-        </v-card>
+        <CreateWorkOrderNote @created="getNotes()" :id="wo.id" />
       </v-timeline-item>
 
       <v-timeline-item
@@ -65,34 +48,39 @@
 </template>
 
 <script>
+import dayjs from "dayjs";
+import CreateWorkOrderNote from "@/components/workOrders/CreateWorkOrderNote.vue";
+
 export default {
   props: {
-    wo: Object,
-    WorkOrderNotes: Array
+    wo: Object
   },
+
   data: () => ({
-    note: {
-      note: "",
-      title: ""
-    }
+    WorkOrderNotes: []
   }),
 
+  components: {
+    CreateWorkOrderNote
+  },
+
   methods: {
-    createNote() {
-      this.$http
-        .post(`/work-order-note`, {
-          note: this.note.note,
-          title: this.note.title,
-          work_order_id: this.wo.id,
-          icon: "",
-          color: "blue",
-          type: "note"
+    getNotes() {
+      this.$http(`/work-order-notes/${this.wo.id}`)
+        .then(res => {
+          this.WorkOrderNotes = res.data;
         })
-        .then(() => {
-          this.getWorkOrderNotes();
-          this.note.note = "";
-          this.note.title = "";
-        });
+        .catch(err => alert(err));
+    }
+  },
+
+  mounted() {
+    this.getNotes();
+  },
+
+  filters: {
+    date(value) {
+      return dayjs(value).format("DD/MM/YYYY");
     }
   }
 };
