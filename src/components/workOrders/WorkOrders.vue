@@ -15,17 +15,24 @@
 
     <v-card color="grey darken-3" class="mt-4">
       <v-card-text>
-        <v-col cols="12" xs="12" sm="6" md="4">
-          <v-text-field
-            label="Pesquisar por código interno"
-            v-model="search"
-            clearable
-            solo
-            light
-            prepend-inner-icon="mdi-magnify"
-            dense
-          ></v-text-field>
-        </v-col>
+        <v-row>
+          <v-col cols="12" xs="10" sm="10" md="4">
+            <v-text-field
+              label="Pesquisar por código interno"
+              v-model="search"
+              clearable
+              solo
+              light
+              prepend-inner-icon="mdi-magnify"
+              dense
+            ></v-text-field>
+          </v-col>
+
+          <v-col cols="12" xs="2" sm="2" md="2">
+            <WorkOrderFilter />
+          </v-col>
+        </v-row>
+
         <v-list nav color="grey darken-3">
           <v-list-item
             v-for="(item, index) in workOrders"
@@ -57,6 +64,7 @@
 <script>
 import dayjs from "dayjs";
 import CreateWorkOrder from "@/components/workOrders/CreateWorkOrder.vue";
+import WorkOrderFilter from "@/components/workOrders/WorkOrderFilter.vue";
 export default {
   data: () => ({
     workOrders: [],
@@ -67,7 +75,8 @@ export default {
   }),
 
   components: {
-    CreateWorkOrder
+    CreateWorkOrder,
+    WorkOrderFilter
   },
 
   computed: {
