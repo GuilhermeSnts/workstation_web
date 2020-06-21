@@ -13,7 +13,7 @@
       </v-card-actions>
     </v-card>
 
-    <v-card class="mt-4">
+    <v-card class="mt-4" color="grey darken-3">
       <v-list two-line nav color="grey darken-3">
         <v-list-item
           :to="'/customers/' + item.id"
@@ -30,6 +30,7 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+      <v-pagination class="ma-4" :length="getTotalPages"></v-pagination>
     </v-card>
   </v-content>
 </template>
@@ -38,21 +39,10 @@
 import { mapActions, mapGetters } from "vuex";
 import CreateCustomer from "@/components/customers/CreateCustomer.vue";
 import SearchCustomer from "@/components/customers/SearchCustomer.vue";
+import scrollToLoadMore from "@/mixins/scrollToLoadMore.js";
+
 export default {
-  data: () => ({
-    scrolled: false,
-    headers: [
-      {
-        text: "Cliente",
-        align: "left",
-        sortable: false,
-        value: "name"
-      },
-      { text: "e-mail", value: "email" },
-      { text: "Telefone", value: "phone" }
-    ],
-    selectedCustomer: []
-  }),
+  mixins: [scrollToLoadMore],
 
   components: {
     CreateCustomer,
@@ -68,28 +58,19 @@ export default {
         return {};
       }
     },
-    ...mapGetters("customers", ["getCustomersList", "getTotalCustomers"])
+    ...mapGetters("customers", [
+      "getCustomersList",
+      "getTotalCustomers",
+      "getCurrentPage",
+      "getTotalPages"
+    ])
   },
-  created() {
-    window.addEventListener("scroll", this.handleScroll);
-  },
-  destroyed() {
-    window.removeEventListener("scroll", this.handleScroll);
-  },
+
   methods: {
-    handleScroll() {
-      if (
-        Math.max(
-          window.pageYOffset,
-          document.documentElement.scrollTop,
-          document.body.scrollTop
-        ) +
-          window.innerHeight >=
-        document.documentElement.offsetHeight
-      ) {
-        this.doAddPage();
-      }
+    loadMore() {
+      this.doAddPage();
     },
+
     ...mapActions("customers", ["doGetCustomers", "doAddPage"])
   },
 

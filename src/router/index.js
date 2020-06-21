@@ -56,7 +56,6 @@ const routes = [
 
   {
     path: "/customers",
-    name: "customers",
     component: () =>
       import(/* webpackChunkName: "customers" */ "../views/Customers.vue"),
     meta: {
@@ -83,9 +82,8 @@ const routes = [
   // Work Orders
   {
     path: "/work-orders",
-    name: "work orders",
     component: () =>
-      import(/* webpackChunkName: "customers" */ "../views/Customers.vue"),
+      import(/* webpackChunkName: "customers" */ "../views/WorkOrders.vue"),
     meta: {
       requiresAuth: true
     },
@@ -102,6 +100,32 @@ const routes = [
         component: () =>
           import(
             /*webpackChunkName: "WorkOrder-Panel"*/ "../components/workOrders/WorkOrderPanel.vue"
+          )
+      }
+    ]
+  },
+
+  // Tickets
+  {
+    path: "/tickets",
+    component: () =>
+      import(/* webpackChunkName: "tickets" */ "../views/Tickets.vue"),
+    meta: {
+      requiresAuth: true
+    },
+    children: [
+      {
+        path: "",
+        component: () =>
+          import(
+            /*webpackChunkName: "Ticket-List"*/ "../components/tickets/TicketList.vue"
+          )
+      },
+      {
+        path: ":id",
+        component: () =>
+          import(
+            /*webpackChunkName: "Ticket-Panel"*/ "../components/tickets/TicketPanel.vue"
           )
       }
     ]

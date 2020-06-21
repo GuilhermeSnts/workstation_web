@@ -6,21 +6,25 @@
     :transition="!isMobile ? 'scale-transition' : 'dialog-bottom-transition'"
   >
     <template v-slot:activator="{ on }">
-      <v-btn color="blue" small v-on="on">
+      <v-btn text small v-on="on">
         <v-icon left>
           mdi-plus
         </v-icon>
-        Criar um chamado
+        Criar um novo chamado
       </v-btn>
     </template>
 
-    <v-card>
+    <v-card class="grey darken-3">
       <v-toolbar v-if="isMobile" color="blue darken-2">
         <v-btn icon @click="dialog = false"><v-icon>mdi-close</v-icon></v-btn>
         <v-toolbar-title>
           <v-icon left>mdi-ticket</v-icon>
           Novo Chamado
         </v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-btn @click="createTicket()" icon>
+          <v-icon>mdi-content-save</v-icon>
+        </v-btn>
       </v-toolbar>
 
       <v-card-title v-if="!isMobile">
@@ -33,7 +37,7 @@
           <v-text-field
             label="Título"
             v-model="title"
-            :rules="[v => !!v || 'Item is required']"
+            :rules="[v => !!v || 'Campo Obrigatório']"
             solo
             light
           ></v-text-field>
@@ -41,7 +45,7 @@
             label="Descrição"
             rows="5"
             v-model="description"
-            :rules="[v => !!v || 'Item is required']"
+            :rules="[v => !!v || 'Campo Obrigatório']"
             solo
             light
           ></v-textarea>
@@ -50,7 +54,7 @@
             :loading="customerLoading"
             label="Cliente"
             item-text="name"
-            :rules="[v => !!v || 'Item is required']"
+            :rules="[v => !!v || 'Campo Obrigatório']"
             :search-input.sync="customerToSearch"
             :items="customersSearchList"
             hide-no-data
@@ -62,28 +66,28 @@
             light
           ></v-autocomplete>
           <v-select
+            :disabled="!customer_id"
             v-model="department_id"
-            label="Departamento responsável"
+            label="Departamento"
             :items="departmentList"
-            :rules="[v => !!v || 'Item is required']"
+            :rules="[v => !!v || 'Campo Obrigatório']"
             item-text="department_name"
-            item-value="id"
+            item-value="department_id"
             solo
             required
             light
           ></v-select>
         </v-form>
-        <v-row align="center" justify="center">
-          <v-btn color="blue" @click="createTicket()">
-            <v-icon left>mdi-content-save</v-icon>
-            Criar chamado
-          </v-btn>
-        </v-row>
       </v-card-text>
 
       <v-card-actions v-if="!isMobile">
         <v-btn text @click="dialog = false">
           fechar
+        </v-btn>
+        <v-spacer></v-spacer>
+        <v-btn color="blue" @click="createTicket()">
+          <v-icon left>mdi-content-save</v-icon>
+          Criar chamado
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -140,7 +144,7 @@ export default {
     },
 
     getDepartments() {
-      this.$http("/departments")
+      this.$http(`/departments/customer/${this.customer_id}`)
         .then(res => {
           this.departmentList = res.data;
         })
@@ -151,6 +155,10 @@ export default {
     }
   },
   watch: {
+    customer_id() {
+      this.getDepartments();
+    },
+
     customerToSearch() {
       if (!this.customerToSearch) {
         this.customersSearchList.length = 0;
