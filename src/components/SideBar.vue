@@ -25,11 +25,6 @@ export default {
         icon: "inbox",
         text: "Work Orders",
         route: "/work-orders"
-      },
-      {
-        icon: "life-buoy",
-        text: "Tickets",
-        route: "/tickets"
       }
     ]
   }),

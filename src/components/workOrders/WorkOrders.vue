@@ -56,6 +56,13 @@
             </v-list-item-action>
           </v-list-item>
         </v-list>
+        <v-pagination
+          v-model="page"
+          color="blue"
+          class="ma-4"
+          :length="totalPages"
+          total-visible="6"
+        ></v-pagination>
       </v-card-text>
     </v-card>
   </v-content>

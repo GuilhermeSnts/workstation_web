@@ -30,7 +30,12 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      <v-pagination class="ma-4" :length="getTotalPages"></v-pagination>
+      <v-pagination
+        class="ma-4"
+        v-model="page"
+        total-visible="6"
+        :length="getTotalPages"
+      ></v-pagination>
     </v-card>
   </v-content>
 </template>
@@ -63,7 +68,16 @@ export default {
       "getTotalCustomers",
       "getCurrentPage",
       "getTotalPages"
-    ])
+    ]),
+
+    page: {
+      get() {
+        return this.getCurrentPage;
+      },
+      set(val) {
+        this.setCurrentPage(val);
+      }
+    }
   },
 
   methods: {
@@ -71,7 +85,11 @@ export default {
       this.doAddPage();
     },
 
-    ...mapActions("customers", ["doGetCustomers", "doAddPage"])
+    ...mapActions("customers", [
+      "doGetCustomers",
+      "doAddPage",
+      "setCurrentPage"
+    ])
   },
 
   mounted() {
