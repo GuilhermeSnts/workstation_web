@@ -64,8 +64,6 @@ export default {
       this.$http
         .get(`/departments`)
         .then(res => {
-          console.log("already", this.customerDepartments);
-          console.log("notyet", res.data);
           let filtered = res.data.filter(
             d => !this.customerDepartments.some(a => a.department_id == d.id)
           );

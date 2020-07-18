@@ -16,21 +16,30 @@
     <v-card color="grey darken-3" class="mt-4">
       <v-card-text>
         <v-row>
-          <v-col cols="12" xs="10" sm="10" md="4">
-            <v-text-field
-              label="Pesquisar por código interno"
-              v-model="search"
-              clearable
-              solo
-              light
-              prepend-inner-icon="mdi-magnify"
-              dense
-            ></v-text-field>
-          </v-col>
+          <v-expansion-panels light>
+            <v-expansion-panel>
+              <v-expansion-panel-header>
+                <span><v-icon>mdi-filter</v-icon> Filtros</span>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-col cols="12" xs="12" sm="12" md="5">
+                  <v-text-field
+                    label="Pesquisar por código interno"
+                    v-model="search"
+                    clearable
+                    outlined
+                    light
+                    prepend-inner-icon="mdi-magnify"
+                    dense
+                  ></v-text-field>
+                </v-col>
 
-          <v-col cols="12" xs="2" sm="2" md="2">
-            <WorkOrderFilter />
-          </v-col>
+                <v-col cols="12" xs="12" sm="12" md="5">
+                  <WorkOrderFilter @filter="setFilteredWorkOrders" />
+                </v-col>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
         </v-row>
 
         <v-list nav color="grey darken-3">
@@ -57,6 +66,7 @@
           </v-list-item>
         </v-list>
         <v-pagination
+          v-show="!isFiltered"
           v-model="page"
           color="blue"
           class="ma-4"
@@ -78,7 +88,8 @@ export default {
     totalItens: 0,
     page: 1,
     selectedWorkOrder: [],
-    search: ""
+    search: "",
+    isFiltered: false
   }),
 
   components: {
@@ -102,15 +113,23 @@ export default {
 
   methods: {
     getWorkOrders() {
+      this.isFiltered = false;
       this.$http(`/work-orders?page=${this.page}`).then(res => {
         this.workOrders = res.data.work_orders;
         this.totalItens = res.data.count;
       });
     },
+
     getWorkOrderBySeachTerm() {
+      this.isFiltered = true;
       this.$http(`/work-orders/search/${this.search}`).then(res => {
         this.workOrders = res.data;
       });
+    },
+
+    setFilteredWorkOrders(workOrders) {
+      this.isFiltered = true;
+      this.workOrders = workOrders;
     }
   },
   watch: {

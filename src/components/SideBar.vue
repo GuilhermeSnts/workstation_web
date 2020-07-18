@@ -20,10 +20,10 @@ export default {
   data: () => ({
     menu: [
       { icon: "activity", text: "Dashboard", route: "/" },
-      { icon: "users", text: "Customers", route: "/customers" },
+      { icon: "users", text: "Clientes", route: "/customers" },
       {
         icon: "inbox",
-        text: "Work Orders",
+        text: "Ordens de Serviço",
         route: "/work-orders"
       }
     ]
