@@ -1,12 +1,10 @@
 <template>
   <v-app-bar app dark dense>
-    <v-app-bar-nav-icon @click="sideBar = !sideBar"></v-app-bar-nav-icon>
-
     <div class="d-flex align-center">
       <v-toolbar-title>
         <v-img src="@/assets/logo.svg" width="50" />
       </v-toolbar-title>
-      <b class="ml-4">Warehouse</b>
+      <b class="ml-4">Work Suite</b>
     </div>
 
     <v-spacer></v-spacer>
@@ -35,7 +33,13 @@
         <v-divider dark></v-divider>
 
         <v-list nav dense>
-          <v-list-item v-for="(item, i) in menu" :key="i" :to="item.route">
+          <v-list-item
+            active-class="secondary"
+            v-for="(item, i) in menu"
+            :key="i"
+            :to="item.route"
+            exact
+          >
             <v-list-item-icon>
               <v-icon v-text="item.icon"></v-icon>
             </v-list-item-icon>
@@ -54,8 +58,8 @@ import { mapMutations, mapGetters } from "vuex";
 export default {
   data: () => ({
     menu: [
-      { icon: "mdi-account", text: "Conta", route: "/account" },
-      { icon: "mdi-cogs", text: "Configurações", route: "/config" },
+      { icon: "mdi-account", text: "Conta", route: "/settings/account" },
+      { icon: "mdi-cogs", text: "Configurações", route: "/settings" },
       { icon: "mdi-power", text: "Logoff", route: "/signin" }
     ]
   }),
