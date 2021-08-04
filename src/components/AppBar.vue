@@ -1,9 +1,12 @@
 <template>
-  <v-app-bar app dark color="grey darken-3" dense>
+  <v-app-bar app dark dense>
     <v-app-bar-nav-icon @click="sideBar = !sideBar"></v-app-bar-nav-icon>
 
     <div class="d-flex align-center">
-      <v-toolbar-title><b>IntraTec</b></v-toolbar-title>
+      <v-toolbar-title>
+        <v-img src="@/assets/logo.svg" width="50" />
+      </v-toolbar-title>
+      <b class="ml-4">Warehouse</b>
     </div>
 
     <v-spacer></v-spacer>
@@ -53,7 +56,7 @@ export default {
     menu: [
       { icon: "mdi-account", text: "Conta", route: "/account" },
       { icon: "mdi-cogs", text: "Configurações", route: "/config" },
-      { icon: "mdi-power", text: "Logoff", route: "/auth" }
+      { icon: "mdi-power", text: "Logoff", route: "/signin" }
     ]
   }),
   methods: {

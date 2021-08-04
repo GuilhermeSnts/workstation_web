@@ -1,5 +1,11 @@
 <template>
-  <v-navigation-drawer app v-model="sideBar">
+  <v-navigation-drawer
+    app
+    v-model="sideBar"
+    permanent
+    expand-on-hover
+    color="primary"
+  >
     <v-list dense nav v-for="(item, index) in menu" :key="index">
       <v-list-item :to="item.route">
         <v-list-item-action>

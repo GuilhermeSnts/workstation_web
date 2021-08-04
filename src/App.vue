@@ -2,11 +2,13 @@
   <v-app>
     <app-bar v-if="hasUser"></app-bar>
     <side-bar v-if="hasUser"></side-bar>
-    <v-container fluid class="fill-height">
-      <v-layout justify-center align-center>
-        <router-view></router-view>
-      </v-layout>
-    </v-container>
+    <v-main>
+      <v-container fluid class="fill-height">
+        <v-layout justify-center align-center>
+          <router-view></router-view>
+        </v-layout>
+      </v-container>
+    </v-main>
   </v-app>
 </template>
 

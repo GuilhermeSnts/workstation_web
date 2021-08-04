@@ -1,1 +1,20 @@
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 87.5 100"><defs><style>.cls-1{fill:#1697f6;}.cls-2{fill:#7bc6ff;}.cls-3{fill:#1867c0;}.cls-4{fill:#aeddff;}</style></defs><title>Artboard 46</title><polyline class="cls-1" points="43.75 0 23.31 0 43.75 48.32"/><polygon class="cls-2" points="43.75 62.5 43.75 100 0 14.58 22.92 14.58 43.75 62.5"/><polyline class="cls-3" points="43.75 0 64.19 0 43.75 48.32"/><polygon class="cls-4" points="64.58 14.58 87.5 14.58 43.75 100 43.75 62.5 64.58 14.58"/></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 58 58" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-156.766,-344.477)">
+        <g transform="matrix(1.33778,0,0,1.33778,46.6663,-126.354)">
+            <rect x="82.301" y="351.95" width="42.91" height="42.91" style="fill:none;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,81.7126,0)">
+            <g transform="matrix(-1,-1.22465e-16,1.22465e-16,-1,181.984,651.529)">
+                <path d="M53.228,288.419L65.728,263.419L68.853,269.669L59.478,288.419L53.228,288.419Z" style="fill:rgb(189,187,176);"/>
+            </g>
+            <g transform="matrix(-1,-1.22465e-16,1.22465e-16,-1,181.984,651.529)">
+                <path d="M75.103,269.669L78.229,263.419L84.479,275.919L90.729,263.419L103.229,288.419L96.979,288.419L90.729,275.919L84.479,288.419L78.229,275.919L71.978,288.419L68.853,282.169L75.103,269.669Z" style="fill:rgb(189,187,176);"/>
+            </g>
+            <g transform="matrix(1,0,0,1,28.9142,76.9987)">
+                <path d="M85.425,302.43L82.301,308.681L79.175,302.431L82.301,296.181L85.425,302.43Z" style="fill:rgb(126,120,210);"/>
+            </g>
+        </g>
+    </g>
+</svg>

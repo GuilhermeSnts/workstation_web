@@ -1,38 +1,13 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
 import store from "../store/index.js";
-
+import authRoutes from "../modules/auth/routes.js";
+import dashboardRoutes from "../modules/dashboard/routes.js";
 Vue.use(VueRouter);
 
 const routes = [
-  // AUTH
-  {
-    path: "/auth",
-    component: () => import(/*webpackChunkName: "auth"*/ "../views/Auth.vue"),
-    children: [
-      {
-        path: "",
-        component: () =>
-          import(/*webpackChunkName: "login"*/ "../views/Login.vue")
-      },
-      {
-        path: "reset",
-        component: () =>
-          import(
-            /*webpackChunkName: "reset-password"*/ "../views/ResetPassword.vue"
-          )
-      }
-    ]
-  },
-  {
-    path: "/",
-    name: "home",
-    component: Home,
-    meta: {
-      requiresAuth: true
-    }
-  },
+  ...dashboardRoutes,
+  ...authRoutes,
   {
     path: "/about",
     name: "about",
@@ -154,7 +129,7 @@ router.beforeEach((to, from, next) => {
       next();
     } else {
       next({
-        path: "/auth",
+        path: "/signin",
         query: {
           redirect: to.fullPath
         }
