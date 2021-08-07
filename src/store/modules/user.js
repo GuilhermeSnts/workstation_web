@@ -5,7 +5,9 @@ export default {
     first_name: null,
     last_name: null,
     token: null,
-    username: null
+    username: null,
+    id: null,
+    email: null
   },
   getters: {
     getFullName(state) {
@@ -28,16 +30,29 @@ export default {
         first_name: state.first_name,
         last_name: state.last_name,
         token: state.token,
+        id: state.id,
+        email: state.email,
         username: state.username
       };
     }
   },
   mutations: {
-    setUserData(state, { first_name, last_name, token, username }) {
+    setUserData(state, { first_name, last_name, token, username, id, email }) {
       state.first_name = first_name;
       state.last_name = last_name;
       state.token = token;
       state.username = username;
+      state.id = id;
+      state.email = email;
+    },
+    setFirstName(state, payload) {
+      state.first_name = payload;
+    },
+    setLastName(state, payload) {
+      state.last_name = payload;
+    },
+    setEmail(state, payload) {
+      state.email = payload;
     },
     setToken(state, payload) {
       state.token = payload;

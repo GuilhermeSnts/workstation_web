@@ -59,7 +59,7 @@ export default {
   data: () => ({
     menu: [
       { icon: "mdi-account", text: "Conta", route: "/settings/account" },
-      { icon: "mdi-cogs", text: "Configurações", route: "/settings" },
+      // { icon: "mdi-cogs", text: "Configurações", route: "/settings" },
       { icon: "mdi-power", text: "Logoff", route: "/signin" }
     ]
   }),

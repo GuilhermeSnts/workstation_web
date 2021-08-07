@@ -6,7 +6,7 @@ export default {
   },
   getters: {
     getClientCode(state) {
-      return state.client_code;
+      return state.clientCode;
     },
     getSideBar(state) {
       return state.sideBar;

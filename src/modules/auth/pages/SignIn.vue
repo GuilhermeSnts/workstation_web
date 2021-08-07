@@ -1,9 +1,9 @@
 <template>
-  <v-row justify="center" align="middle">
+  <v-row justify="center">
     <v-col cols="12" xs="12" sm="6" md="4" xl="2">
       <v-card class="surface">
-        <v-card-text class="pl-8 pr-8 ">
-          <v-row class="mb-4 mx-auto" align="center" justify="center">
+        <v-card-text class="pl-8 pr-8">
+          <v-row class="mb-4 mx-auto" justify="center">
             <div>
               <v-img src="@/assets/logo.svg" width="100"></v-img>
             </div>
@@ -11,7 +11,12 @@
 
           <p class="text-center headline mb-10">Boas-vindas de volta!</p>
 
-          <v-form @submit.prevent="login()" v-model="valid" lazy-validation>
+          <v-form
+            ref="form"
+            @submit.prevent="login()"
+            v-model="valid"
+            lazy-validation
+          >
             <v-text-field
               label="Código do cliente"
               v-model="client_code"
@@ -66,14 +71,13 @@ export default {
     username: "",
     password: "",
     rules: {
-      required: value => !!value || "Required.",
-      min: v => v.length >= 8 || "Min 8 characters",
-      emailMatch: () => `The email and password you entered don't match`
+      required: value => !!value || "Campo obrigatório."
     }
   }),
 
   computed: {
-    ...mapGetters("user", ["getToken"])
+    ...mapGetters("user", ["getToken"]),
+    ...mapGetters("settings", ["getClientCode"])
   },
 
   methods: {
@@ -81,24 +85,30 @@ export default {
     ...mapActions("user", ["doClearUserData", "doLogIn"]),
 
     login() {
-      this.isLoading = true;
-      this.doLogIn({
-        client_code: this.client_code,
-        username: this.username,
-        password: this.password
-      })
-        .then(() => {
-          this.setClientCode(this.client_code);
-          this.$router.push("/");
+      if (this.$refs.form.validate()) {
+        this.isLoading = true;
+        this.doLogIn({
+          client_code: this.client_code,
+          username: this.username,
+          password: this.password
         })
-        .catch(error => {
-          this.showSnackbar(error);
-        })
-        .finally(() => (this.isLoading = false));
+          .then(() => {
+            this.setClientCode(this.client_code);
+            this.$router.push("/");
+          })
+          .catch(error => {
+            this.isLoading = false;
+            this.$notify({
+              message: error,
+              type: "danger"
+            });
+          });
+      }
     }
   },
 
   mounted() {
+    this.client_code = this.getClientCode;
     this.doClearUserData();
   }
 };

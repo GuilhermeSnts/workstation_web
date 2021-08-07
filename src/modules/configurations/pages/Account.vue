@@ -5,8 +5,19 @@
         {{ user.first_name.charAt(0).toUpperCase() }}
       </v-avatar>
 
-      <p class="headline">{{ user.first_name }}</p>
-      <p class="blue--text mt-n4">@{{ user.username }}</p>
+      <p class="headline">{{ user.first_name }} {{ user.last_name }}</p>
+      <p class="primary--text">
+        <span>
+          <v-icon small color="secondary">mdi-account</v-icon>
+        </span>
+        {{ user.username }}
+      </p>
+      <p class="primary--text mb-4 mt-n4">
+        <span>
+          <v-icon small color="secondary">mdi-email</v-icon>
+        </span>
+        {{ user.email }}
+      </p>
 
       <v-expansion-panels light v-model="panels">
         <ChangePasswordPanel />

@@ -3,6 +3,7 @@
     <app-bar v-if="hasUser"></app-bar>
     <side-bar v-if="hasUser"></side-bar>
     <v-main>
+      <notifications></notifications>
       <v-container>
         <router-view></router-view>
       </v-container>
@@ -31,6 +32,7 @@ export default {
   }
 };
 </script>
+<style src="vue-notifyjs/themes/material.css"></style>
 
 <style lang="sass">
 .theme--dark.v-application
