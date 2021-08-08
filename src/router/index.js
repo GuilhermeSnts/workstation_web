@@ -4,12 +4,15 @@ import store from "../store/index.js";
 import authRoutes from "../modules/auth/routes.js";
 import dashboardRoutes from "../modules/dashboard/routes.js";
 import configurationsRoutes from "../modules/configurations/routes.js";
+import usersRoutes from "../modules/users/routes.js";
+
 Vue.use(VueRouter);
 
 const routes = [
   ...dashboardRoutes,
   ...authRoutes,
   ...configurationsRoutes,
+  ...usersRoutes,
 
   {
     path: "/customers",

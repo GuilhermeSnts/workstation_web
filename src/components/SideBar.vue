@@ -9,7 +9,7 @@
     <v-list dense nav v-for="(item, index) in menu" :key="index">
       <v-list-item :to="item.route">
         <v-list-item-action>
-          <f-icon :icon="item.icon" />
+          <v-icon>{{ item.icon }}</v-icon>
         </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title>{{ item.text }}</v-list-item-title>
@@ -21,22 +21,25 @@
 
 <script>
 import { mapMutations, mapGetters } from "vuex";
-import FIcon from "@/components/FIcon";
 export default {
   data: () => ({
-    menu: [
-      { icon: "activity", text: "Dashboard", route: "/" },
-      { icon: "users", text: "Clientes", route: "/customers" },
+    defaultMenu: [
+      { icon: "mdi-view-dashboard", text: "Dashboard", route: "/" },
+      { icon: "mdi-domain", text: "Clientes", route: "/customers" },
       {
-        icon: "inbox",
+        icon: "mdi-notebook",
         text: "Ordens de Serviço",
         route: "/work-orders"
       }
+    ],
+    managerMenu: [
+      {
+        icon: "mdi-account-group",
+        text: "Usuários",
+        route: "/users"
+      }
     ]
   }),
-  components: {
-    FIcon
-  },
 
   methods: {
     ...mapMutations("settings", ["setSideBar"])
@@ -44,7 +47,14 @@ export default {
 
   computed: {
     ...mapGetters("settings", ["getSideBar"]),
-
+    ...mapGetters("user", ["getUserData"]),
+    menu() {
+      const menu = [...this.defaultMenu];
+      if (this.getUserData.is_manager || this.getUserData.is_admin) {
+        menu.push(this.managerMenu);
+      }
+      return menu.flat();
+    },
     sideBar: {
       get() {
         return this.getSideBar;
