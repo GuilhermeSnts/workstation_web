@@ -2,9 +2,13 @@ export default {
   namespaced: true,
   state: {
     sideBar: true,
-    clientCode: ""
+    clientCode: "",
+    version: process.env.PACKAGE_VERSION
   },
   getters: {
+    getVersion(state) {
+      return state.version;
+    },
     getClientCode(state) {
       return state.clientCode;
     },

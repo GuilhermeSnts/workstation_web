@@ -54,6 +54,11 @@
               >Entrar</v-btn
             >
           </v-form>
+          <div class="pt-2 pb-n4">
+            <div class="font-weight-light text-center caption">
+              v{{ getVersion }}
+            </div>
+          </div>
         </v-card-text>
       </v-card>
     </v-col>
@@ -77,7 +82,7 @@ export default {
 
   computed: {
     ...mapGetters("user", ["getToken"]),
-    ...mapGetters("settings", ["getClientCode"])
+    ...mapGetters("settings", ["getClientCode", "getVersion"])
   },
 
   methods: {

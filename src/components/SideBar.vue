@@ -16,6 +16,14 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
+
+    <template v-slot:append>
+      <div class="pt-2 pb-n4">
+        <div class="font-weight-light text-center caption">
+          v{{ getVersion }}
+        </div>
+      </div>
+    </template>
   </v-navigation-drawer>
 </template>
 
@@ -46,7 +54,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters("settings", ["getSideBar"]),
+    ...mapGetters("settings", ["getSideBar", "getVersion"]),
     ...mapGetters("user", ["getUserData"]),
     menu() {
       const menu = [...this.defaultMenu];
