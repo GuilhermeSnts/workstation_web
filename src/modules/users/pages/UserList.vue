@@ -2,11 +2,11 @@
   <v-row>
     <v-col cols="12">
       <h1 class="mb-4">Usuários</h1>
-      <v-card>
+      <v-card elevation="12">
         <v-toolbar color="secondary">
-          <v-btn outlined>
+          <v-btn outlined @click="createUser()">
             <v-icon left>mdi-account-plus</v-icon>
-            Adicionar novo usuário
+            Novo usuário
           </v-btn>
         </v-toolbar>
         <v-card-text>
@@ -90,6 +90,9 @@ export default {
   methods: {
     editUser(id) {
       this.$router.push(`/user/${id}`);
+    },
+    createUser() {
+      this.$router.push(`/user`);
     },
     getUsers() {
       this.loading = true;
