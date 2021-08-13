@@ -6,7 +6,7 @@
     :fullscreen="$vuetify.breakpoint.xsOnly"
   >
     <template v-slot:activator="{ on }">
-      <v-btn text v-on="on">
+      <v-btn elevation="6" color="secondary" v-on="on">
         <v-icon left>mdi-file-plus</v-icon>
         Nova Ordem de Serviço
       </v-btn>
@@ -165,19 +165,13 @@
           <v-icon left>mdi-content-save</v-icon> Cadastrar</v-btn
         >
       </v-card-actions>
-
-      <v-snackbar v-model="snackbar" :timeout="3000">
-        {{ snackbarText }}
-        <v-btn color="blue" text @click="snackbar = false">
-          Fechar
-        </v-btn>
-      </v-snackbar>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
 export default {
+  name: "CreateWorkOrder",
   data: () => ({
     wo: {
       work_requested: "",
@@ -255,8 +249,10 @@ export default {
       if (this.$refs.form.validate()) {
         this.createWorkOrder();
       } else {
-        this.snackbar = true;
-        this.snackbarText = "Existem campos obrigatórios não preenchidos";
+        this.$notify({
+          message: "Existem campos obrigatórios não preenchidos",
+          type: "danger"
+        });
       }
     },
 
@@ -266,8 +262,10 @@ export default {
           this.departmentList = res.data;
         })
         .catch(() => {
-          this.snackbar = true;
-          this.snackbarText = "Houve um erro ao obter a lista de departamentos";
+          this.$notify({
+            message: "Houve um erro ao obter a lista de departamentos",
+            type: "danger"
+          });
         });
     },
 
@@ -277,8 +275,10 @@ export default {
           this.userList = res.data;
         })
         .catch(() => {
-          this.snackbar = true;
-          this.snackbarText = "Houve um erro ao obter a lista de usuários";
+          this.$notify({
+            message: "Houve um erro ao obter a lista de usuários",
+            type: "danger"
+          });
         });
     },
 
@@ -286,14 +286,18 @@ export default {
       this.$http
         .post("/work-orders", this.wo)
         .then(() => {
-          this.snackbar = true;
-          this.snackbarText = "Ordem de serviço cadastrada com sucesso!";
+          this.$notify({
+            message: "Ordem de serviço cadastrada com sucesso!",
+            type: "success"
+          });
           this.dialog = false;
           this.$emit("update");
         })
         .catch(() => {
-          this.snackbar = true;
-          this.snackbarText = "Houve um erro ao cadastrar a ordem de Serviço";
+          this.$notify({
+            message: "Houve um erro ao cadastrar a ordem de Serviço",
+            type: "danger"
+          });
         });
     }
   },

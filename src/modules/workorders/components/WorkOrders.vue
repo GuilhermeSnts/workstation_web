@@ -80,8 +80,8 @@
 
 <script>
 import dayjs from "dayjs";
-import CreateWorkOrder from "@/components/workOrders/CreateWorkOrder.vue";
-import WorkOrderFilter from "@/components/workOrders/WorkOrderFilter.vue";
+import CreateWorkOrder from "./CreateWorkOrder.vue";
+import WorkOrderFilter from "./WorkOrderFilter.vue";
 export default {
   data: () => ({
     workOrders: [],

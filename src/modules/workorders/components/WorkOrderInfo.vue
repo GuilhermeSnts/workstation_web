@@ -66,10 +66,10 @@
 
 <script>
 import dayjs from "dayjs";
-import UpdateWorkOrderStatus from "@/components/workOrders/UpdateWorkOrderStatus.vue";
-import UpdateWorkOrderInCharge from "@/components/workOrders/UpdateWorkOrderInCharge.vue";
-import FinishWorkOrder from "@/components/workOrders/FinishWorkOrder.vue";
-import WorkOrderInfoList from "@/components/workOrders/WorkOrderInfoList.vue";
+import UpdateWorkOrderStatus from "./UpdateWorkOrderStatus.vue";
+import UpdateWorkOrderInCharge from "./UpdateWorkOrderInCharge.vue";
+import FinishWorkOrder from "./FinishWorkOrder.vue";
+import WorkOrderInfoList from "./WorkOrderInfoList.vue";
 export default {
   props: {
     wo: Object,

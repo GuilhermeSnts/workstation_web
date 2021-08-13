@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import WorkOrderInfo from "@/components/workOrders/WorkOrderInfo.vue";
-import WorkOrderTimeline from "@/components/workOrders/WorkOrderTimeline.vue";
+import WorkOrderInfo from "./WorkOrderInfo.vue";
+import WorkOrderTimeline from "./WorkOrderTimeline.vue";
 export default {
   components: {
     WorkOrderInfo,

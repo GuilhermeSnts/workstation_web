@@ -5,6 +5,7 @@ import authRoutes from "../modules/auth/routes.js";
 import dashboardRoutes from "../modules/dashboard/routes.js";
 import configurationsRoutes from "../modules/configurations/routes.js";
 import usersRoutes from "../modules/users/routes.js";
+import workOrdersRoutes from "../modules/workorders/routes.js";
 
 Vue.use(VueRouter);
 
@@ -13,6 +14,7 @@ const routes = [
   ...authRoutes,
   ...configurationsRoutes,
   ...usersRoutes,
+  ...workOrdersRoutes,
 
   {
     path: "/customers",
@@ -34,32 +36,6 @@ const routes = [
         component: () =>
           import(
             /*webpackChunkName: "customer-page"*/ "../components/customers/CustomerPage.vue"
-          )
-      }
-    ]
-  },
-
-  // Work Orders
-  {
-    path: "/work-orders",
-    component: () =>
-      import(/* webpackChunkName: "customers" */ "../views/WorkOrders.vue"),
-    meta: {
-      requiresAuth: true
-    },
-    children: [
-      {
-        path: "",
-        component: () =>
-          import(
-            /*webpackChunkName: "Work-Orders"*/ "../components/workOrders/WorkOrders.vue"
-          )
-      },
-      {
-        path: ":internal_code",
-        component: () =>
-          import(
-            /*webpackChunkName: "WorkOrder-Panel"*/ "../components/workOrders/WorkOrderPanel.vue"
           )
       }
     ]
